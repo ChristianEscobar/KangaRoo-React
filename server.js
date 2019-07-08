@@ -1,17 +1,13 @@
 const express = require('express');
-
+const bodyParser = require('body-parser');
 const app = express();
 
-app.get('/api/customers', (req, res) => {
-  const customers = [
-    {id: 1, firstName: 'John', lastName: 'Doe'},
-    {id: 2, firstName: 'Brad', lastName: 'Traversy'},
-    {id: 3, firstName: 'Mary', lastName: 'Swanson'},
-  ];
+const fileRoutes = require('./routes/file-upload');
 
-  res.json(customers);
-});
+app.use(bodyParser.json());
+
+app.use('/api/v1/', fileRoutes);
 
 const port = 5000;
 
-app.listen(port, () => `Server running on port ${port}`);
+app.listen(port, () => console.log(`Server running on port ${port}`));
