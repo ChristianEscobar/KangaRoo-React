@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const fileRoutes = require('./routes/file-upload');
+const fosterRoutes = require('./routes/fosters');
 
 app.use(bodyParser.json());
 
-app.use('/api/v1/', fileRoutes);
+app.use('/api/v1/fosters', fosterRoutes);
 
 const port = 5000;
 
