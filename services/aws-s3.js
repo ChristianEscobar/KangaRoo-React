@@ -3,7 +3,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 require('dotenv').config();
 
-const s3Bucket = 'kangaroo-thekitty';
+const s3Bucket = `kangaroo-thekitty-${process.env.NODE_ENV}`;
 
 aws.config.update({
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
