@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import NavBar from './components/NavBar/NavBar';
+import AddFoster from './components/AddFoster/AddFoster';
 import './App.css';
-import UploadImage from './components/admin/UploadImage';
+
+const theme = createMuiTheme({
+	palette: {
+		primary: purple,
+		secondary: green
+	},
+	status: {
+		danger: 'orange'
+	}
+});
 
 class App extends Component {
 	render() {
 		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">React Express Starter</h1>
-				</header>
-				<UploadImage />
-			</div>
+			<MuiThemeProvider theme={theme}>
+				<CssBaseline />
+				<div>
+					<NavBar />
+					<br />
+					<AddFoster />
+				</div>
+			</MuiThemeProvider>
 		);
 	}
 }
