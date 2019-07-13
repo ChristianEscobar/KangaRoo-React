@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button/Button';
 import Input from '@material-ui/core/Input/Input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -13,21 +14,43 @@ import {
 } from '@material-ui/pickers';
 
 const AddFoster = () => {
+	const [fosterName, setFosterName] = React.useState('');
 	const [receivedDate, setReceivedDate] = React.useState(Date.now());
 	const [adoptedDate, setAdoptedDate] = React.useState(Date.now());
+	const [fromAgency, setFromAgency] = React.useState('');
+	const [photo, setPhoto] = React.useState('');
 
-	function handleReceivedDateChange(date) {
+	const handleFosterNameChange = event => {
+		setFosterName(event.target.value);
+	};
+
+	const handleReceivedDateChange = date => {
 		setReceivedDate(date);
-	}
+	};
 
-	function handleAdoptedDateChange(date) {
+	const handleAdoptedDateChange = date => {
 		setAdoptedDate(date);
-	}
+	};
+
+	const handleFromAgencyChange = event => {
+		setFromAgency(event.target.value);
+	};
+
+	const handlePhotoChange = event => {
+		setPhoto(event.target.value);
+	};
+
+	const handleSubmit = event => {
+		if (event) {
+			event.preventDefault();
+			console.log(photo);
+		}
+	};
 
 	return (
 		<div>
 			<Container component="main" maxWidth="xs">
-				<Card raised="true">
+				<Card>
 					<CardActionArea>
 						<CardContent>
 							<form>
@@ -36,16 +59,19 @@ const AddFoster = () => {
 									margin="normal"
 									required
 									fullWidth
-									id="foster_name"
+									id="foster-name"
 									label="Foster Name"
-									name="Foster Name"
+									name="foster-name"
+									value={fosterName}
+									onChange={handleFosterNameChange}
 									autoFocus
 								/>
 								<MuiPickersUtilsProvider utils={DateFnsUtils}>
 									<KeyboardDatePicker
 										margin="normal"
 										fullWidth
-										id="mui-pickers-date"
+										id="received-date"
+										name="received-date"
 										label="Received"
 										value={receivedDate}
 										onChange={handleReceivedDateChange}
@@ -59,15 +85,18 @@ const AddFoster = () => {
 									margin="normal"
 									required
 									fullWidth
-									id="from"
+									id="from-agency"
 									label="From Agency"
-									name="From"
+									name="from_agency"
+									value={fromAgency}
+									onChange={handleFromAgencyChange}
 								/>
 								<MuiPickersUtilsProvider utils={DateFnsUtils}>
 									<KeyboardDatePicker
 										margin="normal"
 										fullWidth
-										id="mui-pickers-date"
+										id="adopted-date"
+										name="adopted-date"
 										label="Adopted"
 										value={adoptedDate}
 										onChange={handleAdoptedDateChange}
@@ -76,7 +105,28 @@ const AddFoster = () => {
 										}}
 									/>
 								</MuiPickersUtilsProvider>
-								<Input type="file" />
+								<Button variant="contained" color="primary" component="label">
+									<Input
+										type="file"
+										id="foster-photo"
+										name="foster-photo"
+										required
+										style={{ display: 'none' }}
+										onChange={handlePhotoChange}
+									/>
+									Upload Photo
+								</Button>
+								<br />
+								<br />
+								<Button
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
+									onClick={handleSubmit}
+								>
+									Add Foster
+								</Button>
 							</form>
 						</CardContent>
 					</CardActionArea>
