@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Card from '@material-ui/core/Card/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
@@ -37,13 +36,29 @@ const AddFoster = () => {
 	};
 
 	const handlePhotoChange = event => {
-		setPhoto(event.target.value);
+		setPhoto(event.target.files[0]);
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		if (event) {
-			event.preventDefault();
-			console.log(photo);
+			try {
+				event.preventDefault();
+				let formData = new FormData();
+				formData.append('fosterName', fosterName);
+				formData.append('receivedDate', receivedDate);
+				formData.append('adoptedDate', adoptedDate);
+				formData.append('fromAgency', fromAgency);
+				formData.append('photo', photo);
+
+				const res = await fetch('/api/v1/fosters/add', {
+					method: 'POST',
+					body: formData
+				});
+
+				console.log(await res.text());
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	};
 

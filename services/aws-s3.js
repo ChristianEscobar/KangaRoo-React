@@ -27,12 +27,12 @@ const fileUpload = multer({
 		s3,
 		bucket: `${s3Bucket}/images`,
 		metadata: function(req, file, cb) {
-			cb(null, { fieldName: 'TESTING_METADATA' });
+			cb(null, { fieldName: `foster_photo` });
 		},
 		key: function(req, file, cb) {
 			cb(
 				null,
-				`${req.body.name}-${req.body.from.replace(
+				`${req.body.fosterName}-${req.body.fromAgency.replace(
 					/\s+/g,
 					''
 				)}-${Date.now().toString()}`
@@ -41,10 +41,10 @@ const fileUpload = multer({
 	})
 });
 
-const docUpload = async (doc, filename) => {
+const docUpload = async doc => {
 	const params = {
 		Bucket: s3Bucket,
-		Key: `${filename}-${Date.now().toString()}`,
+		Key: `${doc.fosterName}-${doc.fromAgency}-${Date.now().toString()}`,
 		Body: JSON.stringify(doc)
 	};
 

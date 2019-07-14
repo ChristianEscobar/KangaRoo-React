@@ -15,14 +15,16 @@ router.post('/add', async (req, res) => {
 	try {
 		await singleUpload(req, res);
 		const doc = {
-			body: req.body,
+			fosterName: req.body.fosterName,
+			receivedDate: req.body.receivedDate,
+			adoptedDate: req.body.adoptedDate,
+			fromAgency: req.body.fromAgency,
 			imageUrl: req.file.location
 		};
-		await docUpload(doc, req.body.name);
+		await docUpload(doc);
 
 		return res.status(201).json({
-			body: req.body,
-			imageUrl: req.file.location
+			doc
 		});
 	} catch (err) {
 		return res.status(422).send({
