@@ -11,6 +11,8 @@ import {
 	KeyboardDatePicker
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar/Snackbar';
+import SnackbarContentWrapper from '../SnackbarContentWrapper/SnackbarContentWrapper';
 
 const useStyles = makeStyles(theme => ({
 	typography: {
@@ -26,6 +28,9 @@ const AddFoster = () => {
 	const [fromAgency, setFromAgency] = React.useState('');
 	const [photo, setPhoto] = React.useState('');
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+	const [snackbarVariant, setSnackbarVariant] = React.useState('');
+	const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
 	const handleFosterNameChange = event => {
 		setFosterName(event.target.value);
@@ -59,12 +64,14 @@ const AddFoster = () => {
 					formData.append('fromAgency', fromAgency);
 					formData.append('photo', photo);
 
-					const res = await fetch('/api/v1/fosters/add', {
+					await fetch('/api/v1/fosters/add', {
 						method: 'POST',
 						body: formData
 					});
 
-					console.log(await res.text());
+					setSnackbarVariant('success');
+					setSnackbarMessage('Successfully added new foster!');
+					setSnackbarOpen(true);
 				} catch (err) {
 					console.log(err);
 				}
@@ -80,6 +87,14 @@ const AddFoster = () => {
 
 	const open = Boolean(anchorEl);
 	const id = open ? 'simple-popover' : undefined;
+
+	function handleSnackbarClose(event, reason) {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setSnackbarOpen(false);
+	}
 
 	return (
 		<div>
@@ -178,6 +193,22 @@ const AddFoster = () => {
 					</Popover>
 				</form>
 			</Container>
+
+			<Snackbar
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left'
+				}}
+				open={snackbarOpen}
+				autoHideDuration={6000}
+				onClose={handleSnackbarClose}
+			>
+				<SnackbarContentWrapper
+					onClose={handleSnackbarClose}
+					variant={snackbarVariant}
+					message={snackbarMessage}
+				/>
+			</Snackbar>
 		</div>
 	);
 };
