@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
-import Popover from '@material-ui/core/Popover/Popover';
 import Typography from '@material-ui/core/Typography/Typography';
 import Input from '@material-ui/core/Input/Input';
 import DateFnsUtils from '@date-io/date-fns';
@@ -13,10 +12,20 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import SnackbarContentWrapper from '../SnackbarContentWrapper/SnackbarContentWrapper';
+import Card from '@material-ui/core/Card/Card';
+import CardMedia from '@material-ui/core/CardMedia/CardMedia';
+import CardContent from '@material-ui/core/CardContent/CardContent';
+import Chip from '@material-ui/core/Chip/Chip';
 
 const useStyles = makeStyles(theme => ({
 	typography: {
 		padding: theme.spacing(2)
+	},
+	card: {
+		maxWidth: 320
+	},
+	cardMedia: {
+		height: 240
 	}
 }));
 
@@ -27,10 +36,10 @@ const AddFoster = () => {
 	const [adoptedDate, setAdoptedDate] = React.useState(Date.now());
 	const [fromAgency, setFromAgency] = React.useState('');
 	const [photo, setPhoto] = React.useState('');
-	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 	const [snackbarVariant, setSnackbarVariant] = React.useState('');
 	const [snackbarMessage, setSnackbarMessage] = React.useState('');
+	const [cardPhoto, setCardPhoto] = React.useState('');
 
 	const handleFosterNameChange = event => {
 		setFosterName(event.target.value);
@@ -50,13 +59,14 @@ const AddFoster = () => {
 
 	const handlePhotoChange = event => {
 		setPhoto(event.target.files[0]);
+		setCardPhoto(URL.createObjectURL(event.target.files[0]));
 	};
 
 	const handleSubmit = async event => {
 		if (event) {
+			event.preventDefault();
 			if (fosterName && receivedDate && fromAgency && photo) {
 				try {
-					event.preventDefault();
 					let formData = new FormData();
 					formData.append('fosterName', fosterName);
 					formData.append('receivedDate', receivedDate);
@@ -73,20 +83,17 @@ const AddFoster = () => {
 					setSnackbarMessage('Successfully added new foster!');
 					setSnackbarOpen(true);
 				} catch (err) {
-					console.log(err);
+					setSnackbarVariant('error');
+					setSnackbarMessage(err.message);
+					setSnackbarOpen(true);
 				}
 			} else {
-				setAnchorEl(event.currentTarget);
+				setSnackbarVariant('error');
+				setSnackbarMessage('Required information has not been provided.');
+				setSnackbarOpen(true);
 			}
 		}
 	};
-
-	const popOverClose = () => {
-		setAnchorEl(null);
-	};
-
-	const open = Boolean(anchorEl);
-	const id = open ? 'simple-popover' : undefined;
 
 	function handleSnackbarClose(event, reason) {
 		if (reason === 'clickaway') {
@@ -100,6 +107,30 @@ const AddFoster = () => {
 		<div>
 			<Container component="main" maxWidth="xs">
 				<form>
+					<Card className={classes.card}>
+						<CardMedia className={classes.cardMedia} image={cardPhoto} />
+						<CardContent>
+							<Typography variant="body2" color="textSecondary" component="div">
+								<Chip
+									size="small"
+									label="Image size must be 320x240"
+									color="primary"
+								/>
+							</Typography>
+						</CardContent>
+					</Card>
+					<br />
+					<Button variant="contained" color="primary" component="label">
+						<Input
+							type="file"
+							id="foster-photo"
+							name="foster-photo"
+							style={{ display: 'none' }}
+							onChange={handlePhotoChange}
+						/>
+						Upload Photo
+					</Button>
+
 					<TextField
 						variant="standard"
 						margin="normal"
@@ -152,16 +183,6 @@ const AddFoster = () => {
 							}}
 						/>
 					</MuiPickersUtilsProvider>
-					<Button variant="contained" color="primary" component="label">
-						<Input
-							type="file"
-							id="foster-photo"
-							name="foster-photo"
-							style={{ display: 'none' }}
-							onChange={handlePhotoChange}
-						/>
-						Upload Photo
-					</Button>
 					<br />
 					<br />
 					<Button
@@ -173,24 +194,6 @@ const AddFoster = () => {
 					>
 						Add Foster
 					</Button>
-					<Popover
-						id={id}
-						open={open}
-						anchorEl={anchorEl}
-						onClose={popOverClose}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'center'
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'center'
-						}}
-					>
-						<Typography className={classes.typography}>
-							Required information has not been provided.
-						</Typography>
-					</Popover>
 				</form>
 			</Container>
 
