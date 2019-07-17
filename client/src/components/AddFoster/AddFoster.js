@@ -35,11 +35,11 @@ const AddFoster = () => {
 	const [receivedDate, setReceivedDate] = React.useState(Date.now());
 	const [adoptedDate, setAdoptedDate] = React.useState(Date.now());
 	const [fromAgency, setFromAgency] = React.useState('');
-	const [photo, setPhoto] = React.useState('');
+	const [photoFile, setPhotoFile] = React.useState('');
 	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 	const [snackbarVariant, setSnackbarVariant] = React.useState('');
 	const [snackbarMessage, setSnackbarMessage] = React.useState('');
-	const [cardPhoto, setCardPhoto] = React.useState('');
+	const [cardPhotoURL, setCardPhotoURL] = React.useState('');
 
 	const handleFosterNameChange = event => {
 		setFosterName(event.target.value);
@@ -59,21 +59,21 @@ const AddFoster = () => {
 	};
 
 	const handlePhotoChange = event => {
-		setPhoto(event.target.files[0]);
-		setCardPhoto(URL.createObjectURL(event.target.files[0]));
+		setPhotoFile(event.target.files[0]);
+		setCardPhotoURL(URL.createObjectURL(event.target.files[0]));
 	};
 
 	const handleSubmit = async event => {
 		if (event) {
 			event.preventDefault();
-			if (fosterName && receivedDate && fromAgency && photo) {
+			if (fosterName && receivedDate && fromAgency && photoFile) {
 				try {
 					let formData = new FormData();
 					formData.append('fosterName', fosterName);
 					formData.append('receivedDate', receivedDate);
 					formData.append('adoptedDate', adoptedDate);
 					formData.append('fromAgency', fromAgency);
-					formData.append('photo', photo);
+					formData.append('photo', photoFile);
 
 					await fetch('/api/v1/fosters/add', {
 						method: 'POST',
@@ -83,6 +83,7 @@ const AddFoster = () => {
 					setSnackbarVariant('success');
 					setSnackbarMessage('Successfully added new foster!');
 					setSnackbarOpen(true);
+					clearState();
 				} catch (err) {
 					setSnackbarVariant('error');
 					setSnackbarMessage(err.message);
@@ -96,20 +97,29 @@ const AddFoster = () => {
 		}
 	};
 
-	function handleSnackbarClose(event, reason) {
+	const handleSnackbarClose = (event, reason) => {
 		if (reason === 'clickaway') {
 			return;
 		}
 
 		setSnackbarOpen(false);
-	}
+	};
+
+	const clearState = () => {
+		setFosterName('');
+		setReceivedDate(Date.now());
+		setAdoptedDate(Date.now());
+		setFromAgency('');
+		setPhotoFile('');
+		setCardPhotoURL('');
+	};
 
 	return (
 		<div>
 			<Container component="main" maxWidth="xs">
 				<form>
 					<Card className={classes.card}>
-						<CardMedia className={classes.cardMedia} image={cardPhoto} />
+						<CardMedia className={classes.cardMedia} image={cardPhotoURL} />
 						<CardContent>
 							<Typography variant="body2" color="textSecondary" component="div">
 								<Chip
