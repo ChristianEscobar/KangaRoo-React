@@ -6,6 +6,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBar from './components/NavBar/NavBar';
 import AddFoster from './components/AddFoster/AddFoster';
+import AllFosters from './components/AllFosters/AllFosters';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -27,6 +28,8 @@ class App extends Component {
 					<NavBar />
 					<br />
 					<AddFoster />
+					<br />
+					<AllFosters />
 				</div>
 			</MuiThemeProvider>
 		);
