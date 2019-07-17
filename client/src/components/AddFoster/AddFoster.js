@@ -46,6 +46,7 @@ const AddFoster = () => {
 	};
 
 	const handleReceivedDateChange = date => {
+		console.log(date);
 		setReceivedDate(date);
 	};
 
@@ -151,6 +152,7 @@ const AddFoster = () => {
 							name="received-date"
 							label="Received"
 							value={receivedDate}
+							format="MM/dd/yyyy"
 							required
 							onChange={handleReceivedDateChange}
 							KeyboardButtonProps={{
@@ -177,6 +179,7 @@ const AddFoster = () => {
 							name="adopted-date"
 							label="Adopted"
 							value={adoptedDate}
+							format="MM/dd/yyyy"
 							onChange={handleAdoptedDateChange}
 							KeyboardButtonProps={{
 								'aria-label': 'change date'
