@@ -27,21 +27,6 @@ const AllFosters = () => {
 				</Grid>
 			)}
 		</>
-
-		// <>
-		// 	<h1>Photos</h1>
-		// 	{loading ? (
-		// 		'Loading...'
-		// 	) : (
-		// 		<ul>
-		// 			{data.map(({ id, title, url }) => (
-		// 				<li key={`photo-${id}`}>
-		// 					<img alt={title} src={url} />
-		// 				</li>
-		// 			))}
-		// 		</ul>
-		// 	)}
-		// </>
 	);
 };
 
