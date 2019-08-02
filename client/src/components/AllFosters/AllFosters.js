@@ -5,10 +5,9 @@ import useFetch from './hooks';
 
 const AllFosters = () => {
 	const [data, loading] = useFetch('/api/v1/fosters');
-	console.log(data.docs);
+	console.log(`-> ${JSON.stringify(data.docs)}`);
 	return (
 		<>
-			//{' '}
 			{loading ? (
 				'Loading...'
 			) : (
@@ -16,7 +15,7 @@ const AllFosters = () => {
 					{data.docs.map((dataObj, index) => (
 						<Grid key={index} item xs={3}>
 							<FosterCard
-								cardPhotoURL={dataObj.imageUrl}
+								cardPhotoURL={dataObj.imageURL}
 								fosterName={dataObj.fosterName}
 								received={dataObj.receivedDate}
 								agency={dataObj.fromAgency}

@@ -46,7 +46,6 @@ const AddFoster = () => {
 	};
 
 	const handleReceivedDateChange = date => {
-		console.log(date);
 		setReceivedDate(date);
 	};
 
@@ -81,7 +80,7 @@ const AddFoster = () => {
 					});
 
 					setSnackbarVariant('success');
-					setSnackbarMessage('Successfully added new foster!');
+					setSnackbarMessage(`Successfully added ${fosterName}!`);
 					setSnackbarOpen(true);
 					clearState();
 				} catch (err) {

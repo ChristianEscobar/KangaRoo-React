@@ -69,4 +69,19 @@ const getDoc = async key => {
 	return s3.getObject(params).promise();
 };
 
-module.exports = { fileUpload, docUpload, listDocs, getDoc };
+const signedURL = async awsURL => {
+	const key = awsURL.slice(awsURL.indexOf('images'));
+	const params = { Bucket: s3Bucket, Key: key };
+
+	return new Promise((resolve, reject) => {
+		s3.getSignedUrl('getObject', params, function(err, url) {
+			if (err) {
+				reject(err);
+			}
+
+			resolve(url);
+		});
+	});
+};
+
+module.exports = { fileUpload, docUpload, listDocs, getDoc, signedURL };

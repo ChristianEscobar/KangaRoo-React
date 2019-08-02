@@ -4,6 +4,11 @@ import Card from '@material-ui/core/Card/Card';
 import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import CardContent from '@material-ui/core/CardContent/CardContent';
 import Typography from '@material-ui/core/Typography/Typography';
+import List from '@material-ui/core/List/List';
+import ListItem from '@material-ui/core/ListItem/ListItem';
+import ListItemText from '@material-ui/core/ListItem/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import StarIcon from '@material-ui/icons/Star';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -15,6 +20,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	cardMedia: {
 		height: 240
+	},
+	list: {
+		width: '100%',
+		maxWidth: 360,
+		backgroundColor: theme.palette.background.paper
 	}
 }));
 
@@ -28,9 +38,26 @@ const FosterCard = props => {
 					{props.fosterName}
 				</Typography>
 				<Typography variant="body2" color="textSecondary" component="p">
-					{props.received}
-					{props.agency}
-					{props.adopted}
+					<List className={classes.list} component="ul">
+						<ListItem>
+							<ListItemIcon>
+								<StarIcon />
+							</ListItemIcon>
+							<ListItemText primary={props.received} />
+						</ListItem>
+						<ListItem>
+							<ListItemIcon>
+								<StarIcon />
+							</ListItemIcon>
+							<ListItemText primary={props.agency} />
+						</ListItem>
+						<ListItem>
+							<ListItemIcon>
+								<StarIcon />
+							</ListItemIcon>
+							<ListItemText primary={props.adopted} />
+						</ListItem>
+					</List>
 				</Typography>
 			</CardContent>
 		</Card>

@@ -6,7 +6,8 @@ const {
 	fileUpload,
 	docUpload,
 	listDocs,
-	getDoc
+	getDoc,
+	signedURL
 } = require('../services/aws-s3');
 
 const singleUpload = util.promisify(fileUpload.single('photo'));
@@ -14,12 +15,13 @@ const singleUpload = util.promisify(fileUpload.single('photo'));
 router.post('/add', async (req, res) => {
 	try {
 		await singleUpload(req, res);
+		// const imageURL = await signedURL(req.file.location);
 		const doc = {
 			fosterName: req.body.fosterName,
 			receivedDate: req.body.receivedDate,
 			adoptedDate: req.body.adoptedDate,
 			fromAgency: req.body.fromAgency,
-			imageUrl: req.file.location
+			imageURL: req.file.location
 		};
 		await docUpload(doc);
 
@@ -27,7 +29,7 @@ router.post('/add', async (req, res) => {
 			doc
 		});
 	} catch (err) {
-		return res.status(422).send({
+		return res.status(422).json({
 			errors: [{ title: 'S3 Upload Error', detail: err.message }]
 		});
 	}
