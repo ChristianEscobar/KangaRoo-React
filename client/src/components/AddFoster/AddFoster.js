@@ -16,6 +16,7 @@ import Card from '@material-ui/core/Card/Card';
 import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import CardContent from '@material-ui/core/CardContent/CardContent';
 import Chip from '@material-ui/core/Chip/Chip';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
 	typography: {
@@ -46,11 +47,11 @@ const AddFoster = () => {
 	};
 
 	const handleReceivedDateChange = date => {
-		setReceivedDate(date);
+		setReceivedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
 	const handleAdoptedDateChange = date => {
-		setAdoptedDate(date);
+		setAdoptedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
 	const handleFromAgencyChange = event => {

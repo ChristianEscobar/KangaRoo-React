@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItem/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import StarIcon from '@material-ui/icons/Star';
 import { makeStyles } from '@material-ui/core/styles';
+import { ListItemSecondaryAction } from '@material-ui/core';
+import AWS from 'aws-sdk';
 
 const useStyles = makeStyles(theme => ({
 	typography: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 const FosterCard = props => {
 	const classes = useStyles();
+
 	return (
 		<Card className={classes.card}>
 			<CardMedia className={classes.cardMedia} image={props.cardPhotoURL} />
@@ -37,28 +40,13 @@ const FosterCard = props => {
 				<Typography gutterBottom variant="h5" component="h2">
 					{props.fosterName}
 				</Typography>
-				<Typography variant="body2" color="textSecondary" component="p">
-					<List className={classes.list} component="ul">
-						<ListItem>
-							<ListItemIcon>
-								<StarIcon />
-							</ListItemIcon>
-							<ListItemText primary={props.received} />
-						</ListItem>
-						<ListItem>
-							<ListItemIcon>
-								<StarIcon />
-							</ListItemIcon>
-							<ListItemText primary={props.agency} />
-						</ListItem>
-						<ListItem>
-							<ListItemIcon>
-								<StarIcon />
-							</ListItemIcon>
-							<ListItemText primary={props.adopted} />
-						</ListItem>
+				<div>
+					<List>
+						<ListItemText>Received: {props.received}</ListItemText>
+						<ListItemText>From: {props.agency}</ListItemText>
+						<ListItemText>Adopted: {props.adopted}</ListItemText>
 					</List>
-				</Typography>
+				</div>
 			</CardContent>
 		</Card>
 	);
