@@ -7,7 +7,7 @@ const {
 	docUpload,
 	listDocs,
 	getDoc,
-	signedURL
+	signedURL,
 } = require('../services/aws-s3');
 
 const singleUpload = util.promisify(fileUpload.single('photo'));
@@ -21,16 +21,16 @@ router.post('/add', async (req, res) => {
 			receivedDate: req.body.receivedDate,
 			adoptedDate: req.body.adoptedDate,
 			fromAgency: req.body.fromAgency,
-			imageURL: req.file.location
+			imageURL: req.file.location,
 		};
 		await docUpload(doc);
 
 		return res.status(201).json({
-			doc
+			doc,
 		});
 	} catch (err) {
 		return res.status(422).json({
-			errors: [{ title: 'S3 Upload Error', detail: err.message }]
+			errors: [{ title: 'S3 Upload Error', detail: err.message }],
 		});
 	}
 });
@@ -39,11 +39,11 @@ router.get('/', async (req, res) => {
 	try {
 		const data = await listDocs();
 		const contents = data.Contents.filter(
-			fileObj => !fileObj.Key.includes('images')
+			(fileObj) => !fileObj.Key.includes('images')
 		);
 		const docs = [];
 		await Promise.all(
-			contents.map(async obj => {
+			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
 				docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
 			})
@@ -51,8 +51,8 @@ router.get('/', async (req, res) => {
 
 		return res.status(200).json({ docs });
 	} catch (err) {
-		return res.status(422).send({
-			errors: [{ title: 'S3 Read Error', detail: err.message }]
+		return res.status(422).json({
+			errors: [{ title: 'S3 Read Error', detail: err.message }],
 		});
 	}
 });
