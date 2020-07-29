@@ -17,7 +17,6 @@ const AllFosters = () => {
 	}
 
 	if (data.errors) {
-		console.log(data.errors[0]);
 		return (
 			<Alert variant="filled" severity="error">
 				<AlertTitle>Unable to load data</AlertTitle>
@@ -31,7 +30,7 @@ const AllFosters = () => {
 			{data.docs.map((dataObj, index) => (
 				<Grid key={index} item xs={3}>
 					<FosterCard
-						cardPhotoURL={dataObj.imageURL}
+						cardPhotoURL={dataObj.signedURL}
 						fosterName={dataObj.fosterName}
 						received={dataObj.receivedDate}
 						agency={dataObj.fromAgency}

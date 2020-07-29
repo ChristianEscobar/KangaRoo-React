@@ -45,10 +45,10 @@ router.get('/', async (req, res) => {
 		await Promise.all(
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
-				docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
+				// docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
+				docs.push(doc);
 			})
 		);
-
 		return res.status(200).json({ docs });
 	} catch (err) {
 		return res.status(422).json({
