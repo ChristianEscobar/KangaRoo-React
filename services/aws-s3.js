@@ -5,16 +5,10 @@ require('dotenv').config();
 
 const s3Bucket = `kangaroo-thekitty-${process.env.NODE_ENV}`;
 
-// aws.config.update({
-// 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-// 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-// 	region: process.env.AWS_REGION,
-// });
-
-// Initialize the Amazon Cognito credentials provider
-aws.config.region = 'us-west-2'; // Region
-aws.config.credentials = new aws.CognitoIdentityCredentials({
-	IdentityPoolId: 'us-west-2:769c33b7-5440-4cc3-ad8b-f5ee4439610d',
+aws.config.update({
+	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+	region: process.env.AWS_REGION,
 });
 
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
