@@ -23,6 +23,14 @@ const AllFosters = (props) => {
 		);
 	}
 
+	if (props.data.docs.length === 0) {
+		return (
+			<div>
+				<h4>You have not added any fosters yet... the world is waiting.</h4>
+			</div>
+		);
+	}
+
 	return (
 		<Grid container spacing={3}>
 			{props.data.docs.map((dataObj, index) => (
