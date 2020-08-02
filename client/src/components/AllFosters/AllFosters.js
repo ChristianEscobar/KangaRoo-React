@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import FosterCard from '../FosterCard/FosterCard';
+import PhotoOptions from '../PhotoOptions/PhotoOptions';
 
 const AllFosters = (props) => {
 	if (props.loading) {
@@ -33,6 +34,8 @@ const AllFosters = (props) => {
 						agency={dataObj.fromAgency}
 						adopted={dataObj.adoptedDate}
 					/>
+					<br />
+					<PhotoOptions awskey={dataObj.aws_key} />
 				</Grid>
 			))}
 		</Grid>

@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography/Typography';
 import List from '@material-ui/core/List/List';
 import ListItemText from '@material-ui/core/ListItem/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
-import PhotoOptions from '../PhotoOptions/PhotoOptions';
 
 const useStyles = makeStyles((theme) => ({
 	typography: {
@@ -46,7 +45,6 @@ const FosterCard = (props) => {
 					</div>
 				</CardContent>
 			</Card>
-			<PhotoOptions />
 		</div>
 	);
 };
