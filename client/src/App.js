@@ -6,17 +6,17 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBar from './components/NavBar/NavBar';
 import AddFoster from './components/AddFoster/AddFoster';
-import AllFosters from './components/AllFosters/AllFosters';
+import Admin from './components/Admin/Admin';
 import './App.css';
 
 const theme = createMuiTheme({
 	palette: {
 		primary: purple,
-		secondary: green
+		secondary: green,
 	},
 	status: {
-		danger: 'orange'
-	}
+		danger: 'orange',
+	},
 });
 
 class App extends Component {
@@ -27,9 +27,7 @@ class App extends Component {
 				<div>
 					<NavBar />
 					<br />
-					<AddFoster />
-					<br />
-					<AllFosters />
+					<Admin />
 				</div>
 			</MuiThemeProvider>
 		);
