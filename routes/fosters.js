@@ -7,6 +7,7 @@ const {
 	docUpload,
 	listDocs,
 	getDoc,
+	deleteDoc,
 	signedURL,
 } = require('../services/aws-s3');
 
@@ -15,7 +16,7 @@ const singleUpload = util.promisify(fileUpload.single('photo'));
 router.post('/add', async (req, res) => {
 	try {
 		await singleUpload(req, res);
-		// const imageURL = await signedURL(req.file.location);
+
 		const doc = {
 			fosterName: req.body.fosterName,
 			receivedDate: req.body.receivedDate,
@@ -28,9 +29,28 @@ router.post('/add', async (req, res) => {
 		return res.status(201).json({
 			doc,
 		});
-	} catch (err) {
+	} catch (error) {
 		return res.status(422).json({
-			errors: [{ title: 'S3 Upload Error', detail: err.message }],
+			errors: [{ title: 'S3 Upload Error', detail: error.message }],
+		});
+	}
+});
+
+router.delete('/delete', async (req, res) => {
+	try {
+		// Start by retrieving the doc so we can get the image path
+		const doc = await getDoc(req.body.Key);
+
+		// Extract image path from imageURL
+		const imagePath = decodeURI(
+			doc.imageURL.substring(doc.imageURL.indexOf('images'))
+		);
+
+		const response = await deleteDoc([req.body.Key, imagePath]);
+		return res.status(200).json(response);
+	} catch (error) {
+		return res.status(500).json({
+			errors: [{ title: 'S3 Delete Error', detail: error.message }],
 		});
 	}
 });
@@ -38,21 +58,25 @@ router.post('/add', async (req, res) => {
 router.get('/', async (req, res) => {
 	try {
 		const data = await listDocs();
+
+		// Filter out objects which pertain to images
 		const contents = data.Contents.filter(
 			(fileObj) => !fileObj.Key.includes('images')
 		);
+
 		const docs = [];
 		await Promise.all(
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
+				doc.aws_key = obj.Key;
 				// docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
 				docs.push(doc);
 			})
 		);
 		return res.status(200).json({ docs });
-	} catch (err) {
+	} catch (error) {
 		return res.status(422).json({
-			errors: [{ title: 'S3 Read Error', detail: err.message }],
+			errors: [{ title: 'S3 Read Error', detail: error.message }],
 		});
 	}
 });

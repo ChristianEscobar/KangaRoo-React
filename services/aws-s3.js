@@ -76,6 +76,28 @@ const getDoc = async (key) => {
 	return docObj;
 };
 
+const deleteDoc = async (arrayOfKeys) => {
+	// Delete both the doc and associated image
+	const objects = [
+		{
+			Key: arrayOfKeys[0],
+		},
+		{
+			Key: arrayOfKeys[1],
+		},
+	];
+
+	const params = {
+		Bucket: s3Bucket,
+		Delete: {
+			Objects: objects,
+		},
+	};
+
+	const result = await s3.deleteObjects(params).promise();
+	return result;
+};
+
 const signedURL = async (awsURL) => {
 	const key = decodeURI(awsURL.slice(awsURL.indexOf('images')));
 	const params = { Bucket: s3Bucket, Key: key };
@@ -91,4 +113,11 @@ const signedURL = async (awsURL) => {
 	});
 };
 
-module.exports = { fileUpload, docUpload, listDocs, getDoc, signedURL };
+module.exports = {
+	fileUpload,
+	docUpload,
+	listDocs,
+	getDoc,
+	signedURL,
+	deleteDoc,
+};
