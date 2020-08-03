@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input/Input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
 	MuiPickersUtilsProvider,
-	KeyboardDatePicker
+	KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
@@ -18,16 +18,16 @@ import CardContent from '@material-ui/core/CardContent/CardContent';
 import Chip from '@material-ui/core/Chip/Chip';
 import moment from 'moment';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	typography: {
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
 	},
 	card: {
-		maxWidth: 320
+		maxWidth: 320,
 	},
 	cardMedia: {
-		height: 240
-	}
+		height: 240,
+	},
 }));
 
 const AddFoster = () => {
@@ -42,42 +42,48 @@ const AddFoster = () => {
 	const [snackbarMessage, setSnackbarMessage] = React.useState('');
 	const [cardPhotoURL, setCardPhotoURL] = React.useState('');
 
-	const handleFosterNameChange = event => {
+	const handleFosterNameChange = (event) => {
 		setFosterName(event.target.value);
 	};
 
-	const handleReceivedDateChange = date => {
+	const handleReceivedDateChange = (date) => {
 		setReceivedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
-	const handleAdoptedDateChange = date => {
+	const handleAdoptedDateChange = (date) => {
 		setAdoptedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
-	const handleFromAgencyChange = event => {
+	const handleFromAgencyChange = (event) => {
 		setFromAgency(event.target.value);
 	};
 
-	const handlePhotoChange = event => {
+	const handlePhotoChange = (event) => {
 		setPhotoFile(event.target.files[0]);
 		setCardPhotoURL(URL.createObjectURL(event.target.files[0]));
 	};
 
-	const handleSubmit = async event => {
+	const handleSubmit = async (event) => {
 		if (event) {
 			event.preventDefault();
 			if (fosterName && receivedDate && fromAgency && photoFile) {
 				try {
 					let formData = new FormData();
 					formData.append('fosterName', fosterName);
-					formData.append('receivedDate', receivedDate);
-					formData.append('adoptedDate', adoptedDate);
+					formData.append(
+						'receivedDate',
+						moment(receivedDate).format('MM/DD/YYYY')
+					);
+					formData.append(
+						'adoptedDate',
+						moment(adoptedDate).format('MM/DD/YYYY')
+					);
 					formData.append('fromAgency', fromAgency);
 					formData.append('photo', photoFile);
 
 					await fetch('/api/v1/fosters/add', {
 						method: 'POST',
-						body: formData
+						body: formData,
 					});
 
 					setSnackbarVariant('success');
@@ -166,7 +172,7 @@ const AddFoster = () => {
 							required
 							onChange={handleReceivedDateChange}
 							KeyboardButtonProps={{
-								'aria-label': 'change date'
+								'aria-label': 'change date',
 							}}
 						/>
 					</MuiPickersUtilsProvider>
@@ -192,7 +198,7 @@ const AddFoster = () => {
 							format="MM/dd/yyyy"
 							onChange={handleAdoptedDateChange}
 							KeyboardButtonProps={{
-								'aria-label': 'change date'
+								'aria-label': 'change date',
 							}}
 						/>
 					</MuiPickersUtilsProvider>
@@ -213,7 +219,7 @@ const AddFoster = () => {
 			<Snackbar
 				anchorOrigin={{
 					vertical: 'bottom',
-					horizontal: 'left'
+					horizontal: 'left',
 				}}
 				open={snackbarOpen}
 				autoHideDuration={6000}
