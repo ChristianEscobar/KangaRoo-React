@@ -1,12 +1,16 @@
 import React from 'react';
 import { ButtonGroup, Button } from '@material-ui/core';
+import EditFoster from '../EditFoster/EditFoster';
 
 const DELETE_URL = '/api/v1/fosters/delete';
 
 const PhotoOptions = (props) => {
+	const [edit, setEdit] = React.useState(false);
+
 	function handleEdit(e) {
 		e.preventDefault();
 		console.log(props.awskey);
+		setEdit(true);
 	}
 
 	async function handleDelete(e) {
@@ -25,6 +29,10 @@ const PhotoOptions = (props) => {
 			alert(error.message);
 			console.log(error);
 		}
+	}
+
+	if (edit) {
+		return <EditFoster />;
 	}
 
 	return (
