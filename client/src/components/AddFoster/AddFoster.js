@@ -35,7 +35,7 @@ const AddFoster = () => {
 	const [fosterName, setFosterName] = React.useState('');
 	const [receivedDate, setReceivedDate] = React.useState(Date.now());
 	const [adoptedDate, setAdoptedDate] = React.useState(Date.now());
-	const [fromAgency, setFromAgency] = React.useState('');
+	const [adoptionAgency, setAdoptionAgency] = React.useState('');
 	const [photoFile, setPhotoFile] = React.useState('');
 	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 	const [snackbarVariant, setSnackbarVariant] = React.useState('');
@@ -54,8 +54,8 @@ const AddFoster = () => {
 		setAdoptedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
-	const handleFromAgencyChange = (event) => {
-		setFromAgency(event.target.value);
+	const handleAdoptionAgencyChange = (event) => {
+		setAdoptionAgency(event.target.value);
 	};
 
 	const handlePhotoChange = (event) => {
@@ -66,7 +66,7 @@ const AddFoster = () => {
 	const handleSubmit = async (event) => {
 		if (event) {
 			event.preventDefault();
-			if (fosterName && receivedDate && fromAgency && photoFile) {
+			if (fosterName && receivedDate && adoptionAgency && photoFile) {
 				try {
 					let formData = new FormData();
 					formData.append('fosterName', fosterName);
@@ -78,7 +78,7 @@ const AddFoster = () => {
 						'adoptedDate',
 						moment(adoptedDate).format('MM/DD/YYYY')
 					);
-					formData.append('fromAgency', fromAgency);
+					formData.append('adoptionAgency', adoptionAgency);
 					formData.append('photo', photoFile);
 
 					await fetch('/api/v1/fosters/add', {
@@ -115,7 +115,7 @@ const AddFoster = () => {
 		setFosterName('');
 		setReceivedDate(Date.now());
 		setAdoptedDate(Date.now());
-		setFromAgency('');
+		setAdoptionAgency('');
 		setPhotoFile('');
 		setCardPhotoURL('');
 	};
@@ -160,6 +160,17 @@ const AddFoster = () => {
 						onChange={handleFosterNameChange}
 						autoFocus
 					/>
+					<TextField
+						variant="standard"
+						margin="normal"
+						required
+						fullWidth
+						id="adoption-agency"
+						label="Adoption Agency"
+						name="adoption_agency"
+						value={adoptionAgency}
+						onChange={handleAdoptionAgencyChange}
+					/>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<KeyboardDatePicker
 							margin="normal"
@@ -176,17 +187,6 @@ const AddFoster = () => {
 							}}
 						/>
 					</MuiPickersUtilsProvider>
-					<TextField
-						variant="standard"
-						margin="normal"
-						required
-						fullWidth
-						id="from-agency"
-						label="Agency"
-						name="from_agency"
-						value={fromAgency}
-						onChange={handleFromAgencyChange}
-					/>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<KeyboardDatePicker
 							margin="normal"
