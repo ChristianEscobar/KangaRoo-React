@@ -108,7 +108,7 @@ const EditFoster = (props) => {
 						Cancel
 					</Button>
 					<Button onClick={handleSubmit} color="primary">
-						Submit
+						Update
 					</Button>
 				</DialogActions>
 			</Dialog>
