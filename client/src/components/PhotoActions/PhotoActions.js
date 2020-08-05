@@ -4,7 +4,7 @@ import EditFoster from '../EditFoster/EditFoster';
 
 const DELETE_URL = '/api/v1/fosters/delete';
 
-const PhotoOptions = (props) => {
+const PhotoActions = (props) => {
 	const [edit, setEdit] = React.useState(false);
 
 	function handleEdit(e) {
@@ -31,20 +31,28 @@ const PhotoOptions = (props) => {
 		}
 	}
 
-	if (edit) {
-		return <EditFoster />;
-	}
-
 	return (
-		<ButtonGroup
-			variant="contained"
-			color="primary"
-			aria-label="contained primary button group"
-		>
-			<Button onClick={handleEdit}>Edit</Button>
-			<Button onClick={handleDelete}>Delete</Button>
-		</ButtonGroup>
+		<div>
+			<ButtonGroup
+				variant="contained"
+				color="primary"
+				aria-label="contained primary button group"
+			>
+				<Button onClick={handleEdit}>Edit</Button>
+				<Button onClick={handleDelete}>Delete</Button>
+			</ButtonGroup>
+
+			<EditFoster
+				awskey={props.awskey}
+				showDialog={edit}
+				fosterName={props.fosterName}
+				agency={props.agency}
+				received={props.received}
+				adopted={props.adopted}
+				setEdit={setEdit}
+			/>
+		</div>
 	);
 };
 
-export default PhotoOptions;
+export default PhotoActions;
