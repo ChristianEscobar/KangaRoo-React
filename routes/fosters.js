@@ -21,7 +21,7 @@ router.post('/add', async (req, res) => {
 			fosterName: req.body.fosterName,
 			receivedDate: req.body.receivedDate,
 			adoptedDate: req.body.adoptedDate,
-			fromAgency: req.body.fromAgency,
+			adoptionAgency: req.body.adoptionAgency,
 			imageURL: req.file.location,
 		};
 		await docUpload(doc);
@@ -51,6 +51,27 @@ router.delete('/delete', async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			errors: [{ title: 'S3 Delete Error', detail: error.message }],
+		});
+	}
+});
+
+router.put('/update', async (req, res) => {
+	try {
+		// Start by retrieving the doc
+		const doc = await getDoc(req.body.Key);
+
+		doc.receivedDate = req.body.receivedDate;
+		doc.adoptedDate = req.body.adoptedDate;
+		doc.adoptionAgency = req.body.adoptionAgency;
+
+		await docUpload(doc, req.body.Key);
+
+		return res.status(200).json({
+			doc,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			errors: [{ title: 'S3 Update Error', detail: error.message }],
 		});
 	}
 });

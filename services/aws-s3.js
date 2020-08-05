@@ -32,7 +32,7 @@ const fileUpload = multer({
 		key: function (req, file, cb) {
 			cb(
 				null,
-				`${req.body.fosterName}-${req.body.fromAgency.replace(
+				`${req.body.fosterName}-${req.body.adoptionAgency.replace(
 					/\s+/g,
 					''
 				)}-${Date.now().toString()}`
@@ -41,10 +41,14 @@ const fileUpload = multer({
 	}),
 });
 
-const docUpload = async (doc) => {
+const docUpload = async (doc, key = null) => {
+	const Key =
+		key === null
+			? `${doc.fosterName}-${doc.adoptionAgency}-${Date.now().toString()}`
+			: key;
 	const params = {
 		Bucket: s3Bucket,
-		Key: `${doc.fosterName}-${doc.fromAgency}-${Date.now().toString()}`,
+		Key,
 		Body: JSON.stringify(doc),
 	};
 
