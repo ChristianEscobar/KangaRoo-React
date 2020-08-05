@@ -38,8 +38,8 @@ const FosterCard = (props) => {
 					</Typography>
 					<div>
 						<List>
+							<ListItemText>Adoption Agency: {props.agency}</ListItemText>
 							<ListItemText>Received: {props.received}</ListItemText>
-							<ListItemText>From: {props.agency}</ListItemText>
 							<ListItemText>Adopted: {props.adopted}</ListItemText>
 						</List>
 					</div>
