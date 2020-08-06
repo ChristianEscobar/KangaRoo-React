@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AddFoster = () => {
+const AddFoster = (props) => {
 	const classes = useStyles();
 	const [fosterName, setFosterName] = React.useState('');
 	const [receivedDate, setReceivedDate] = React.useState(Date.now());
@@ -90,6 +90,7 @@ const AddFoster = () => {
 					setSnackbarMessage(`Successfully added ${fosterName}!`);
 					setSnackbarOpen(true);
 					clearState();
+					props.fetchData();
 				} catch (err) {
 					setSnackbarVariant('error');
 					setSnackbarMessage(err.message);
