@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from './hooks';
 import AllFosters from '../AllFosters/AllFosters';
 import AddFoster from '../AddFoster/AddFoster';
 
@@ -10,7 +9,11 @@ const Admin = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(async () => {
-		await fetchData();
+		async function getFosters() {
+			await fetchData();
+		}
+
+		await getFosters();
 	}, []);
 
 	async function fetchData() {
