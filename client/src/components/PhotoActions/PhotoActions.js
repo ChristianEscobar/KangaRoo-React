@@ -24,7 +24,7 @@ const PhotoActions = (props) => {
 				body: JSON.stringify(body),
 				headers: { 'Content-Type': 'application/json' },
 			});
-			alert(response);
+			props.fetchData();
 		} catch (error) {
 			alert(error.message);
 			console.log(error);

@@ -49,6 +49,7 @@ const AllFosters = (props) => {
 						received={dataObj.receivedDate}
 						adopted={dataObj.adoptedDate}
 						agency={dataObj.adoptionAgency}
+						fetchData={props.fetchData}
 					/>
 				</Grid>
 			))}

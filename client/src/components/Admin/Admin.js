@@ -27,7 +27,7 @@ const Admin = () => {
 		<div>
 			<AddFoster fetchData={fetchData} />
 			<br />
-			<AllFosters data={data} loading={loading} />
+			<AllFosters data={data} loading={loading} fetchData={fetchData} />
 		</div>
 	);
 };
