@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ButtonGroup, Button } from '@material-ui/core';
 import EditFoster from '../EditFoster/EditFoster';
 
 const DELETE_URL = '/api/v1/fosters/delete';
 
 const PhotoActions = (props) => {
-	const [edit, setEdit] = React.useState(false);
+	const [edit, setEdit] = useState(false);
 
 	function handleEdit(e) {
 		e.preventDefault();
@@ -24,6 +24,10 @@ const PhotoActions = (props) => {
 				body: JSON.stringify(body),
 				headers: { 'Content-Type': 'application/json' },
 			});
+
+			props.setSnackbarVariant('success');
+			props.setSnackbarMessage(`${props.fosterName} has been deleted`);
+			props.setSnackbarOpen(true);
 			props.fetchData();
 		} catch (error) {
 			alert(error.message);

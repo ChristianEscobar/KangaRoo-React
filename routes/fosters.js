@@ -90,10 +90,18 @@ router.get('/', async (req, res) => {
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
 				doc.aws_key = obj.Key;
+				doc.lastModified = obj.LastModified;
+				doc.lastModifiedMillis = Date.parse(obj.LastModified);
 				// docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
 				docs.push(doc);
 			})
 		);
+
+		// Sort results by last modified
+		docs.sort(function (a, b) {
+			return a.lastModifiedMillis - b.lastModifiedMillis;
+		});
+
 		return res.status(200).json({ docs });
 	} catch (error) {
 		return res.status(422).json({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
@@ -10,8 +10,6 @@ import {
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar/Snackbar';
-import SnackbarContentWrapper from '../SnackbarContentWrapper/SnackbarContentWrapper';
 import Card from '@material-ui/core/Card/Card';
 import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import CardContent from '@material-ui/core/CardContent/CardContent';
@@ -30,17 +28,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const ADD_FOSTER_URL = '/api/v1/fosters/add';
+
 const AddFoster = (props) => {
 	const classes = useStyles();
-	const [fosterName, setFosterName] = React.useState('');
-	const [receivedDate, setReceivedDate] = React.useState(Date.now());
-	const [adoptedDate, setAdoptedDate] = React.useState(Date.now());
-	const [adoptionAgency, setAdoptionAgency] = React.useState('');
-	const [photoFile, setPhotoFile] = React.useState('');
-	const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-	const [snackbarVariant, setSnackbarVariant] = React.useState('');
-	const [snackbarMessage, setSnackbarMessage] = React.useState('');
-	const [cardPhotoURL, setCardPhotoURL] = React.useState('');
+	const [fosterName, setFosterName] = useState('');
+	const [receivedDate, setReceivedDate] = useState(Date.now());
+	const [adoptedDate, setAdoptedDate] = useState(Date.now());
+	const [adoptionAgency, setAdoptionAgency] = useState('');
+	const [photoFile, setPhotoFile] = useState('');
+	const [cardPhotoURL, setCardPhotoURL] = useState('');
 
 	const handleFosterNameChange = (event) => {
 		setFosterName(event.target.value);
@@ -81,35 +78,27 @@ const AddFoster = (props) => {
 					formData.append('adoptionAgency', adoptionAgency);
 					formData.append('photo', photoFile);
 
-					await fetch('/api/v1/fosters/add', {
+					await fetch(ADD_FOSTER_URL, {
 						method: 'POST',
 						body: formData,
 					});
 
-					setSnackbarVariant('success');
-					setSnackbarMessage(`Successfully added ${fosterName}!`);
-					setSnackbarOpen(true);
+					props.setSnackbarVariant('success');
+					props.setSnackbarMessage(`${fosterName} has been added`);
+					props.setSnackbarOpen(true);
 					clearState();
 					props.fetchData();
 				} catch (err) {
-					setSnackbarVariant('error');
-					setSnackbarMessage(err.message);
-					setSnackbarOpen(true);
+					props.setSnackbarVariant('error');
+					props.setSnackbarMessage(err.message);
+					props.setSnackbarOpen(true);
 				}
 			} else {
-				setSnackbarVariant('error');
-				setSnackbarMessage('Required information has not been provided.');
-				setSnackbarOpen(true);
+				props.setSnackbarVariant('error');
+				props.setSnackbarMessage('Required information has not been provided.');
+				props.setSnackbarOpen(true);
 			}
 		}
-	};
-
-	const handleSnackbarClose = (event, reason) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setSnackbarOpen(false);
 	};
 
 	const clearState = () => {
@@ -216,22 +205,6 @@ const AddFoster = (props) => {
 					</Button>
 				</form>
 			</Container>
-
-			<Snackbar
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left',
-				}}
-				open={snackbarOpen}
-				autoHideDuration={6000}
-				onClose={handleSnackbarClose}
-			>
-				<SnackbarContentWrapper
-					onClose={handleSnackbarClose}
-					variant={snackbarVariant}
-					message={snackbarMessage}
-				/>
-			</Snackbar>
 		</div>
 	);
 };

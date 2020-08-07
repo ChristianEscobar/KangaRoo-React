@@ -50,6 +50,9 @@ const AllFosters = (props) => {
 						adopted={dataObj.adoptedDate}
 						agency={dataObj.adoptionAgency}
 						fetchData={props.fetchData}
+						setSnackbarOpen={props.setSnackbarOpen}
+						setSnackbarVariant={props.setSnackbarVariant}
+						setSnackbarMessage={props.setSnackbarMessage}
 					/>
 				</Grid>
 			))}
