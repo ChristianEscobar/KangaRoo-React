@@ -1,38 +1,42 @@
 import React, { useState } from 'react';
 import { ButtonGroup, Button } from '@material-ui/core';
 import EditFoster from '../EditFoster/EditFoster';
+import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
 
 const DELETE_URL = '/api/v1/fosters/delete';
 
 const PhotoActions = (props) => {
 	const [edit, setEdit] = useState(false);
+	const [deleting, setDeleting] = useState(false);
 
 	function handleEdit(e) {
-		e.preventDefault();
-		console.log(props.awskey);
 		setEdit(true);
 	}
 
-	async function handleDelete(e) {
-		e.preventDefault();
-		try {
-			const body = {
-				Key: props.awskey,
-			};
-			const response = await fetch(DELETE_URL, {
-				method: 'delete',
-				body: JSON.stringify(body),
-				headers: { 'Content-Type': 'application/json' },
-			});
+	const handleDeleteCancel = () => {
+		setDeleting(false);
+	};
 
-			props.setSnackbarVariant('success');
-			props.setSnackbarMessage(`${props.fosterName} has been deleted`);
-			props.setSnackbarOpen(true);
-			props.fetchData();
-		} catch (error) {
-			alert(error.message);
-			console.log(error);
-		}
+	async function handleDeleteOK(e) {
+		setDeleting(false);
+		// try {
+		// 	const body = {
+		// 		Key: props.awskey,
+		// 	};
+		// 	const response = await fetch(DELETE_URL, {
+		// 		method: 'delete',
+		// 		body: JSON.stringify(body),
+		// 		headers: { 'Content-Type': 'application/json' },
+		// 	});
+
+		// 	props.setSnackbarVariant('success');
+		// 	props.setSnackbarMessage(`${props.fosterName} has been deleted`);
+		// 	props.setSnackbarOpen(true);
+		// 	props.fetchData();
+		// } catch (error) {
+		// 	alert(error.message);
+		// 	console.log(error);
+		// }
 	}
 
 	return (
@@ -43,9 +47,8 @@ const PhotoActions = (props) => {
 				aria-label="contained primary button group"
 			>
 				<Button onClick={handleEdit}>Edit</Button>
-				<Button onClick={handleDelete}>Delete</Button>
+				<Button onClick={setDeleting}>Delete</Button>
 			</ButtonGroup>
-
 			<EditFoster
 				awskey={props.awskey}
 				showDialog={edit}
@@ -55,6 +58,13 @@ const PhotoActions = (props) => {
 				adopted={props.adopted}
 				setEdit={setEdit}
 			/>
+			<ConfirmationDialog
+				showDialog={deleting}
+				title="Are you sure?"
+				handleOK={handleDeleteOK}
+				handleCancel={handleDeleteCancel}
+			/>
+			;
 		</div>
 	);
 };
