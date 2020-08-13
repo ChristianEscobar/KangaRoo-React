@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
-import SnackbarContentWrapper from '../SnackbarContentWrapper/SnackbarContentWrapper';
-import AllFosters from '../AllFosters/AllFosters';
-import AddFoster from '../AddFoster/AddFoster';
+import SnackbarContentWrapper from '../components/SnackbarContentWrapper/SnackbarContentWrapper';
+import AllFosters from '../components/AllFosters/AllFosters';
+import AddFoster from '../components/AddFoster/AddFoster';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
 
