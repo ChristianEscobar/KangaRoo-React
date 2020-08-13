@@ -17,7 +17,9 @@ const ConfirmationDialog = (props) => {
 			open={props.showDialog}
 		>
 			<DialogTitle id="confirmation-dialog-title">{props.title}</DialogTitle>
-			<DialogContent>Test</DialogContent>
+			<DialogContent>
+				<DialogContentText>{props.contentText}</DialogContentText>
+			</DialogContent>
 			<DialogActions>
 				<Button autoFocus onClick={props.handleCancel} color="primary">
 					Cancel
