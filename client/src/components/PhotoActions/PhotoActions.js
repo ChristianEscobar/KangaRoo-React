@@ -56,6 +56,7 @@ const PhotoActions = (props) => {
 				received={props.received}
 				adopted={props.adopted}
 				setEdit={setEdit}
+				fetchData={props.fetchData}
 			/>
 			<ConfirmationDialog
 				showDialog={deleting}
