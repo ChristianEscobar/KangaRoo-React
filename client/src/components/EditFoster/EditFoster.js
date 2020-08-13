@@ -18,11 +18,11 @@ const EditFoster = (props) => {
 	const [adoptedDate, setAdoptedDate] = React.useState(props.adopted);
 	const [adoptionAgency, setAdoptionAgency] = React.useState(props.agency);
 
-	const handleClose = () => {
+	const handleCancel = () => {
 		props.setEdit(false);
 	};
 
-	const handleSubmit = async () => {
+	const handleUpdate = async () => {
 		const body = {
 			Key: props.awskey,
 			adoptionAgency,
@@ -36,6 +36,7 @@ const EditFoster = (props) => {
 			headers: { 'Content-Type': 'application/json' },
 		});
 		props.setEdit(false);
+		props.fetchData();
 	};
 
 	const handleReceivedDateChange = (date) => {
@@ -54,7 +55,7 @@ const EditFoster = (props) => {
 		<div>
 			<Dialog
 				open={props.showDialog}
-				onClose={handleClose}
+				onClose={handleCancel}
 				aria-labelledby="form-dialog-title"
 			>
 				<DialogTitle id="form-dialog-title">Edit Details</DialogTitle>
@@ -104,10 +105,10 @@ const EditFoster = (props) => {
 					</MuiPickersUtilsProvider>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose} color="primary">
+					<Button onClick={handleCancel} color="primary">
 						Cancel
 					</Button>
-					<Button onClick={handleSubmit} color="primary">
+					<Button onClick={handleUpdate} color="primary">
 						Update
 					</Button>
 				</DialogActions>
