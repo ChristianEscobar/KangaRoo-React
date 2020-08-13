@@ -18,25 +18,24 @@ const PhotoActions = (props) => {
 	};
 
 	async function handleDeleteOK(e) {
-		setDeleting(false);
-		// try {
-		// 	const body = {
-		// 		Key: props.awskey,
-		// 	};
-		// 	const response = await fetch(DELETE_URL, {
-		// 		method: 'delete',
-		// 		body: JSON.stringify(body),
-		// 		headers: { 'Content-Type': 'application/json' },
-		// 	});
-
-		// 	props.setSnackbarVariant('success');
-		// 	props.setSnackbarMessage(`${props.fosterName} has been deleted`);
-		// 	props.setSnackbarOpen(true);
-		// 	props.fetchData();
-		// } catch (error) {
-		// 	alert(error.message);
-		// 	console.log(error);
-		// }
+		try {
+			const body = {
+				Key: props.awskey,
+			};
+			const response = await fetch(DELETE_URL, {
+				method: 'delete',
+				body: JSON.stringify(body),
+				headers: { 'Content-Type': 'application/json' },
+			});
+			setDeleting(false);
+			props.setSnackbarVariant('success');
+			props.setSnackbarMessage(`${props.fosterName} has been deleted`);
+			props.setSnackbarOpen(true);
+			props.fetchData();
+		} catch (error) {
+			alert(error.message);
+			console.log(error);
+		}
 	}
 
 	return (
@@ -60,7 +59,8 @@ const PhotoActions = (props) => {
 			/>
 			<ConfirmationDialog
 				showDialog={deleting}
-				title="Are you sure?"
+				title="Delete Foster?"
+				contentText={`Are you sure you want to delete ${props.fosterName}?`}
 				handleOK={handleDeleteOK}
 				handleCancel={handleDeleteCancel}
 			/>
