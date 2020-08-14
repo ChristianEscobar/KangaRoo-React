@@ -14,6 +14,8 @@ import Card from '@material-ui/core/Card/Card';
 import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import CardContent from '@material-ui/core/CardContent/CardContent';
 import Chip from '@material-ui/core/Chip/Chip';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,11 @@ const AddFoster = (props) => {
 	const [adoptionAgency, setAdoptionAgency] = useState('');
 	const [photoFile, setPhotoFile] = useState('');
 	const [cardPhotoURL, setCardPhotoURL] = useState('');
+	const [adoptedChecked, setAdoptedChecked] = React.useState(false);
+
+	const handleAdoptedChecked = (event) => {
+		setAdoptedChecked(event.target.checked);
+	};
 
 	const handleFosterNameChange = (event) => {
 		setFosterName(event.target.value);
@@ -177,8 +184,14 @@ const AddFoster = (props) => {
 							}}
 						/>
 					</MuiPickersUtilsProvider>
+					<Checkbox
+						checked={adoptedChecked}
+						onChange={handleAdoptedChecked}
+						inputProps={{ 'aria-label': 'primary checkbox' }}
+					/>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<KeyboardDatePicker
+							disabled={!adoptedChecked}
 							margin="normal"
 							fullWidth
 							id="adopted-date"
