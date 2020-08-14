@@ -78,10 +78,14 @@ const AddFoster = (props) => {
 						'receivedDate',
 						moment(receivedDate).format('MM/DD/YYYY')
 					);
-					formData.append(
-						'adoptedDate',
-						moment(adoptedDate).format('MM/DD/YYYY')
-					);
+					if (!adoptedChecked) {
+						formData.append('adoptedDate', '');
+					} else {
+						formData.append(
+							'adoptedDate',
+							moment(adoptedDate).format('MM/DD/YYYY')
+						);
+					}
 					formData.append('adoptionAgency', adoptionAgency);
 					formData.append('photo', photoFile);
 
