@@ -65,7 +65,6 @@ const PhotoActions = (props) => {
 				handleOK={handleDeleteOK}
 				handleCancel={handleDeleteCancel}
 			/>
-			;
 		</div>
 	);
 };
