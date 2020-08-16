@@ -41,6 +41,9 @@ const FosterCard = (props) => {
 							<ListItemText>Adoption Agency: {props.agency}</ListItemText>
 							<ListItemText>Received: {props.received}</ListItemText>
 							<ListItemText>Adopted: {props.adopted}</ListItemText>
+							<ListItemText>Facebook: {props.facebook}</ListItemText>
+							<ListItemText>Instagram: {props.instagram}</ListItemText>
+							<ListItemText>Comments: {props.comments}</ListItemText>
 						</List>
 					</div>
 				</CardContent>

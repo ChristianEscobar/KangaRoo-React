@@ -41,6 +41,9 @@ const AllFosters = (props) => {
 						received={dataObj.receivedDate}
 						agency={dataObj.adoptionAgency}
 						adopted={dataObj.adoptedDate}
+						facebook={dataObj.facebook}
+						instagram={dataObj.instagram}
+						comments={dataObj.comments}
 					/>
 					<br />
 					<FosterCardActions
