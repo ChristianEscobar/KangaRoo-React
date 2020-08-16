@@ -42,7 +42,6 @@ const Admin = () => {
 				setSnackbarVariant={setSnackbarVariant}
 				setSnackbarMessage={setSnackbarMessage}
 			/>
-			<br />
 			<AllFosters
 				data={data}
 				loading={loading}

@@ -6,7 +6,6 @@ import Card from '@material-ui/core/Card/Card';
 import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import Input from '@material-ui/core/Input/Input';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -19,6 +18,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
+import AddFosterActions from '../AddFosterActions/AddFosterActions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,7 +44,7 @@ const FosterForm = (props) => {
 	const [fosterName, setFosterName] = useState('');
 	const [adoptionAgency, setAdoptionAgency] = useState('');
 	const [receivedDate, setReceivedDate] = useState(Date.now());
-	const [adoptedChecked, setAdoptedChecked] = React.useState(false);
+	const [adoptedDateChecked, setAdoptedDateChecked] = React.useState(false);
 	const [adoptedDate, setAdoptedDate] = useState(Date.now());
 	const [facebook, setFacebook] = useState('');
 	const [instagram, setInstagram] = useState('');
@@ -69,8 +69,8 @@ const FosterForm = (props) => {
 		setReceivedDate(moment(date).format('MM/DD/YYYY'));
 	};
 
-	const handleAdoptedChecked = (event) => {
-		setAdoptedChecked(event.target.checked);
+	const handleAdoptedDateChecked = (event) => {
+		setAdoptedDateChecked(event.target.checked);
 	};
 
 	const handleAdoptedDateChange = (date) => {
@@ -88,6 +88,40 @@ const FosterForm = (props) => {
 	const handleCommentsChange = (event) => {
 		setComments(event.target.value);
 	};
+
+	const clearForm = () => {
+		setFosterName('');
+		setReceivedDate(Date.now());
+		setAdoptedDate(Date.now());
+		setAdoptionAgency('');
+		setCardPhotoFile('');
+		setCardPhotoURL('');
+		setFacebook('');
+		setInstagram('');
+		setComments('');
+	};
+
+	let formActionButtons;
+	if (props.adding) {
+		formActionButtons = (
+			<AddFosterActions
+				fosterName={fosterName}
+				adoptionAgency={adoptionAgency}
+				adoptedDateChecked={adoptedDateChecked}
+				receivedDate={receivedDate}
+				adoptedDate={adoptedDate}
+				photoFile={cardPhotoFile}
+				facebook={facebook}
+				instagram={instagram}
+				comments={comments}
+				fetchData={props.fetchData}
+				clearForm={clearForm}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
+			/>
+		);
+	}
 
 	return (
 		<div className={classes.root}>
@@ -169,7 +203,7 @@ const FosterForm = (props) => {
 						<Grid item>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<KeyboardDatePicker
-									disabled={!adoptedChecked}
+									disabled={!adoptedDateChecked}
 									margin="normal"
 									id="adopted-date"
 									name="adopted-date"
@@ -185,8 +219,8 @@ const FosterForm = (props) => {
 						</Grid>
 						<Grid item>
 							<Checkbox
-								checked={adoptedChecked}
-								onChange={handleAdoptedChecked}
+								checked={adoptedDateChecked}
+								onChange={handleAdoptedDateChecked}
 								inputProps={{ 'aria-label': 'primary checkbox' }}
 							/>
 						</Grid>
@@ -196,7 +230,6 @@ const FosterForm = (props) => {
 							fullWidth
 							variant="standard"
 							margin="normal"
-							required
 							id="facebook"
 							label="Facebook"
 							name="facebook"
@@ -216,7 +249,6 @@ const FosterForm = (props) => {
 							fullWidth
 							variant="standard"
 							margin="normal"
-							required
 							id="instagram"
 							label="Instagram"
 							name="instagram"
@@ -245,144 +277,12 @@ const FosterForm = (props) => {
 							onChange={handleCommentsChange}
 						/>
 					</Grid>
+					<Grid item xs={12}>
+						{formActionButtons}
+					</Grid>
 				</Grid>
 			</Grid>
 		</div>
-
-		// <div className={classes.root}>
-		// 	<Grid container spacing={2}>
-		// 		<Grid item>
-		// 			<ButtonBase>
-		// 				<Card className={classes.card}>
-		// 					<CardMedia className={classes.cardMedia} image={cardPhotoURL} />
-		// 					<CardContent>
-		// 						<Typography
-		// 							variant="body2"
-		// 							color="textSecondary"
-		// 							component="div"
-		// 						>
-		// 							<Chip
-		// 								size="small"
-		// 								label="Image size must be 320x240"
-		// 								color="primary"
-		// 							/>
-		// 						</Typography>
-		// 					</CardContent>
-		// 				</Card>
-		// 			</ButtonBase>
-		// 		</Grid>
-		// 		<Grid container item sm>
-		// 			<Grid item container spacing={2}>
-		// 				<Grid item xs={6}>
-		// 					<TextField
-		// 						fullWidth
-		// 						variant="standard"
-		// 						margin="normal"
-		// 						required
-		// 						id="foster-name"
-		// 						label="Foster Name"
-		// 						name="foster-name"
-		// 						value={fosterName}
-		// 						onChange={handleFosterNameChange}
-		// 						autoFocus
-		// 					/>
-		// 				</Grid>
-		// 				<Grid item xs={6}>
-		// 					<TextField
-		// 						fullWidth
-		// 						variant="standard"
-		// 						margin="normal"
-		// 						required
-		// 						id="adoption-agency"
-		// 						label="Adoption Agency"
-		// 						name="adoption_agency"
-		// 						value={adoptionAgency}
-		// 						onChange={handleAdoptionAgencyChange}
-		// 					/>
-		// 				</Grid>
-		// 				<Grid item container spacing={2}>
-		// 					<Grid item>
-		// 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
-		// 							<KeyboardDatePicker
-		// 								margin="normal"
-		// 								id="received-date"
-		// 								name="received-date"
-		// 								label="Received"
-		// 								value={receivedDate}
-		// 								format="MM/dd/yyyy"
-		// 								required
-		// 								onChange={handleReceivedDateChange}
-		// 								KeyboardButtonProps={{
-		// 									'aria-label': 'change date',
-		// 								}}
-		// 							/>
-		// 						</MuiPickersUtilsProvider>
-		// 					</Grid>
-		// 					<Grid item container spacing={1} alignItems="flex-end">
-		// 						<Grid item>
-		// 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-		// 								<KeyboardDatePicker
-		// 									disabled={!adoptedChecked}
-		// 									margin="normal"
-		// 									id="adopted-date"
-		// 									name="adopted-date"
-		// 									label="Adopted"
-		// 									value={adoptedDate}
-		// 									format="MM/dd/yyyy"
-		// 									onChange={handleAdoptedDateChange}
-		// 									KeyboardButtonProps={{
-		// 										'aria-label': 'change date',
-		// 									}}
-		// 								/>
-		// 							</MuiPickersUtilsProvider>
-		// 						</Grid>
-		// 						<Grid item>
-		// 							<Checkbox
-		// 								checked={adoptedChecked}
-		// 								onChange={handleAdoptedChecked}
-		// 								inputProps={{ 'aria-label': 'primary checkbox' }}
-		// 							/>
-		// 						</Grid>
-		// 					</Grid>
-		// 				</Grid>
-		// 				<Grid container item spacing={1} alignItems="flex-end">
-		// 					<Grid item xs={3}>
-		// 						<TextField
-		// 							fullWidth
-		// 							variant="standard"
-		// 							margin="normal"
-		// 							required
-		// 							id="facebook"
-		// 							label="Facebook"
-		// 							name="facebook"
-		// 							value={facebook}
-		// 							onChange={handleFacebookChange}
-		// 						/>
-		// 					</Grid>
-		// 					<Grid item>
-		// 						<Facebook color="primary" />
-		// 					</Grid>
-		// 					<Grid item xs={3}>
-		// 						<TextField
-		// 							fullWidth
-		// 							variant="standard"
-		// 							margin="normal"
-		// 							required
-		// 							id="instagram"
-		// 							label="Instagram"
-		// 							name="instagram"
-		// 							value={instagram}
-		// 							onChange={handleInstagramChange}
-		// 						/>
-		// 					</Grid>
-		// 					<Grid item>
-		// 						<Instagram color="primary" />
-		// 					</Grid>
-		// 				</Grid>
-		// 			</Grid>
-		// 		</Grid>
-		// 	</Grid>
-		// </div>
 	);
 };
 
