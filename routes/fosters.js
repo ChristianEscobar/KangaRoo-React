@@ -19,9 +19,12 @@ router.post('/add', async (req, res) => {
 
 		const doc = {
 			fosterName: req.body.fosterName,
+			adoptionAgency: req.body.adoptionAgency,
 			receivedDate: req.body.receivedDate,
 			adoptedDate: req.body.adoptedDate,
-			adoptionAgency: req.body.adoptionAgency,
+			facebook: req.body.facebook,
+			instagram: req.body.instagram,
+			comments: req.body.comments,
 			imageURL: req.file.location,
 		};
 		await docUpload(doc);
