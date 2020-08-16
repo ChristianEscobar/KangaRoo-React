@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import FosterCard from '../FosterCard/FosterCard';
-import PhotoActions from '../PhotoActions/PhotoActions';
+import FosterCardActions from '../FosterCardActions/FosterCardActions';
 
 const AllFosters = (props) => {
 	if (props.loading) {
@@ -43,7 +43,7 @@ const AllFosters = (props) => {
 						adopted={dataObj.adoptedDate}
 					/>
 					<br />
-					<PhotoActions
+					<FosterCardActions
 						awskey={dataObj.aws_key}
 						fosterName={dataObj.fosterName}
 						received={dataObj.receivedDate}
