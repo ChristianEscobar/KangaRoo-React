@@ -92,7 +92,7 @@ router.get('/', async (req, res) => {
 		await Promise.all(
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
-				doc.aws_key = obj.Key;
+				doc.awsKey = obj.Key;
 				doc.lastModified = obj.LastModified;
 				doc.lastModifiedMillis = Date.parse(obj.LastModified);
 				// docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
