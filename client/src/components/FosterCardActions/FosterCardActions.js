@@ -20,13 +20,20 @@ const PhotoActions = (props) => {
 	async function handleDeleteOK(e) {
 		try {
 			const body = {
-				Key: props.docAwskey,
+				Key: props.docAwsKey,
 			};
 			const response = await fetch(DELETE_URL, {
 				method: 'delete',
 				body: JSON.stringify(body),
 				headers: { 'Content-Type': 'application/json' },
 			});
+
+			if (!response.ok) {
+				throw new Error(
+					`Status:  ${response.status} Message: ${response.statusText}`
+				);
+			}
+
 			setDeleting(false);
 			props.setSnackbarVariant('success');
 			props.setSnackbarMessage(`${props.fosterName} has been deleted`);
