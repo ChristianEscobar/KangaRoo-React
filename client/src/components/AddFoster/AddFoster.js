@@ -4,7 +4,7 @@ import FosterForm from '../FosterForm/FosterForm';
 const AddFoster = (props) => {
 	return (
 		<FosterForm
-			adding="true"
+			adding={true}
 			fetchData={props.fetchData}
 			setSnackbarOpen={props.setSnackbarOpen}
 			setSnackbarVariant={props.setSnackbarVariant}
