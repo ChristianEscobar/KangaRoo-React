@@ -25,7 +25,7 @@ const EditFoster = (props) => {
 
 	const handleUpdate = async () => {
 		const body = {
-			Key: props.awskey,
+			Key: props.docAwskey,
 			adoptionAgency,
 			receivedDate,
 			adoptedDate,

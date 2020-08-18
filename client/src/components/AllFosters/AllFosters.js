@@ -47,7 +47,7 @@ const AllFosters = (props) => {
 					/>
 					<br />
 					<FosterCardActions
-						awskey={dataObj.awsKey}
+						docAwsKey={dataObj.docAwsKey}
 						photoURL={dataObj.signedURL}
 						fosterName={dataObj.fosterName}
 						receivedDate={dataObj.receivedDate}

@@ -20,7 +20,7 @@ const PhotoActions = (props) => {
 	async function handleDeleteOK(e) {
 		try {
 			const body = {
-				Key: props.awskey,
+				Key: props.docAwskey,
 			};
 			const response = await fetch(DELETE_URL, {
 				method: 'delete',
@@ -49,7 +49,7 @@ const PhotoActions = (props) => {
 				<Button onClick={setDeleting}>Delete</Button>
 			</ButtonGroup>
 			<EditFoster
-				awskey={props.awskey}
+				docAwskey={props.docAwskey}
 				showDialog={edit}
 				photoURL={props.photoURL}
 				fosterName={props.fosterName}

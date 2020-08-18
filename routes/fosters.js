@@ -8,10 +8,13 @@ const {
 	listDocs,
 	getDoc,
 	deleteDoc,
-	signedURL,
 } = require('../services/aws-s3');
 
 const singleUpload = util.promisify(fileUpload.single('photo'));
+
+const getImageKey = (imageURL) => {
+	return imageURL.substring(imageURL.indexOf('images/'));
+};
 
 router.post('/add', async (req, res) => {
 	try {
@@ -92,10 +95,10 @@ router.get('/', async (req, res) => {
 		await Promise.all(
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
-				doc.awsKey = obj.Key;
+				doc.imageAwsKey = getImageKey(doc.imageURL);
+				doc.docAwsKey = obj.Key;
 				doc.lastModified = obj.LastModified;
 				doc.lastModifiedMillis = Date.parse(obj.LastModified);
-				// docs.push(JSON.parse(Buffer.from(doc.Body, 'base64').toString('utf8')));
 				docs.push(doc);
 			})
 		);
