@@ -15,41 +15,8 @@ import moment from 'moment';
 import FosterForm from '../FosterForm/FosterForm';
 
 const EditFoster = (props) => {
-	const [receivedDate, setReceivedDate] = React.useState(props.received);
-	const [adoptedDate, setAdoptedDate] = React.useState(props.adopted);
-	const [adoptionAgency, setAdoptionAgency] = React.useState(props.agency);
-
 	const handleCancel = () => {
 		props.setEdit(false);
-	};
-
-	const handleUpdate = async () => {
-		const body = {
-			Key: props.docAwskey,
-			adoptionAgency,
-			receivedDate,
-			adoptedDate,
-		};
-
-		await fetch('/api/v1/fosters/update', {
-			method: 'PUT',
-			body: JSON.stringify(body),
-			headers: { 'Content-Type': 'application/json' },
-		});
-		props.setEdit(false);
-		props.fetchData();
-	};
-
-	const handleReceivedDateChange = (date) => {
-		setReceivedDate(moment(date).format('MM/DD/YYYY'));
-	};
-
-	const handleAdoptedDateChange = (date) => {
-		setAdoptedDate(moment(date).format('MM/DD/YYYY'));
-	};
-
-	const handleAdoptionAgencyChange = (event) => {
-		setAdoptionAgency(event.target.value);
 	};
 
 	return (
@@ -64,8 +31,11 @@ const EditFoster = (props) => {
 				<DialogTitle id="form-dialog-title">Edit Details</DialogTitle>
 				<DialogContent>
 					<FosterForm
+						fetchData={props.fetchData}
+						setEdit={props.setEdit}
 						adding={false}
-						editing="true"
+						docAwsKey={props.docAwsKey}
+						imageAwsKey={props.imageAwsKey}
 						photoURL={props.photoURL}
 						fosterName={props.fosterName}
 						adoptionAgency={props.adoptionAgency}
@@ -82,9 +52,6 @@ const EditFoster = (props) => {
 				<DialogActions>
 					<Button onClick={handleCancel} color="primary">
 						Cancel
-					</Button>
-					<Button onClick={handleUpdate} color="primary">
-						Update
 					</Button>
 				</DialogActions>
 			</Dialog>

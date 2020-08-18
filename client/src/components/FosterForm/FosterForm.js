@@ -19,6 +19,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
 import AddFosterActions from '../AddFosterActions/AddFosterActions';
+import EditFosterActions from '../EditFosterActions/EditFosterActions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const FosterForm = (props) => {
 	const [cardPhotoFile, setCardPhotoFile] = useState('');
 	const [cardPhotoURL, setCardPhotoURL] = useState(
-		!props.photoURL ? null : props.photoURL
+		!props.photoURL ? '' : props.photoURL
 	);
 	const [fosterName, setFosterName] = useState(props.fosterName);
 	const [adoptionAgency, setAdoptionAgency] = useState(props.adoptionAgency);
@@ -114,29 +115,50 @@ const FosterForm = (props) => {
 	};
 
 	let formActionButtons;
+	let disableFosterName = false;
 	if (props.adding) {
+		disableFosterName = false;
 		formActionButtons = (
-			<Grid item xs={12}>
-				<AddFosterActions
-					fosterName={fosterName}
-					adoptionAgency={adoptionAgency}
-					adoptedDateChecked={adoptedDateChecked}
-					receivedDate={receivedDate}
-					adoptedDate={adoptedDate}
-					photoFile={cardPhotoFile}
-					facebook={facebook}
-					instagram={instagram}
-					comments={comments}
-					fetchData={props.fetchData}
-					clearForm={clearForm}
-					setSnackbarOpen={props.setSnackbarOpen}
-					setSnackbarVariant={props.setSnackbarVariant}
-					setSnackbarMessage={props.setSnackbarMessage}
-				/>
-			</Grid>
+			<AddFosterActions
+				fosterName={fosterName}
+				adoptionAgency={adoptionAgency}
+				adoptedDateChecked={adoptedDateChecked}
+				receivedDate={receivedDate}
+				adoptedDate={adoptedDate}
+				photoFile={cardPhotoFile}
+				facebook={facebook}
+				instagram={instagram}
+				comments={comments}
+				fetchData={props.fetchData}
+				clearForm={clearForm}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
+			/>
 		);
 	} else {
-		formActionButtons = null;
+		disableFosterName = true;
+		formActionButtons = (
+			<EditFosterActions
+				docAwsKey={props.docAwsKey}
+				imageAwsKey={props.imageAwsKey}
+				fosterName={fosterName}
+				adoptionAgency={adoptionAgency}
+				adoptedDateChecked={adoptedDateChecked}
+				receivedDate={receivedDate}
+				adoptedDate={adoptedDate}
+				photoFile={cardPhotoFile}
+				facebook={facebook}
+				instagram={instagram}
+				comments={comments}
+				setEdit={props.setEdit}
+				fetchData={props.fetchData}
+				clearForm={clearForm}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
+			/>
+		);
 	}
 
 	return (
@@ -173,6 +195,7 @@ const FosterForm = (props) => {
 				<Grid item xs={12} sm container spacing={2}>
 					<Grid item xs={6}>
 						<TextField
+							disabled={disableFosterName}
 							fullWidth
 							variant="standard"
 							margin="normal"
@@ -293,7 +316,9 @@ const FosterForm = (props) => {
 							onChange={handleCommentsChange}
 						/>
 					</Grid>
-					{formActionButtons}
+					<Grid item xs={12}>
+						{formActionButtons}
+					</Grid>
 				</Grid>
 			</Grid>
 		</div>

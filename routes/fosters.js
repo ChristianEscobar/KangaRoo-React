@@ -4,21 +4,23 @@ const util = require('util');
 
 const {
 	fileUpload,
+	fileUpdate,
 	docUpload,
 	listDocs,
 	getDoc,
 	deleteDoc,
 } = require('../services/aws-s3');
 
-const singleUpload = util.promisify(fileUpload.single('photo'));
+const singleImageUpload = util.promisify(fileUpload.single('photo'));
+const singleImageUpdate = util.promisify(fileUpdate.single('photo'));
 
 const getImageKey = (imageURL) => {
-	return imageURL.substring(imageURL.indexOf('images/'));
+	return imageURL.substring(imageURL.indexOf('images/') + 7);
 };
 
 router.post('/add', async (req, res) => {
 	try {
-		await singleUpload(req, res);
+		await singleImageUpload(req, res);
 
 		const doc = {
 			fosterName: req.body.fosterName,
@@ -63,12 +65,20 @@ router.delete('/delete', async (req, res) => {
 
 router.put('/update', async (req, res) => {
 	try {
-		// Start by retrieving the doc
-		const doc = await getDoc(req.body.Key);
+		console.log('body -> ', req.body);
+		console.log('file -> ', req.file);
+		await singleImageUpdate(req, res);
+		console.log('file -> ', req.file);
 
+		const doc = await getDoc(req.body.Key);
+		doc.fosterName = req.body.fosterName;
 		doc.receivedDate = req.body.receivedDate;
 		doc.adoptedDate = req.body.adoptedDate;
 		doc.adoptionAgency = req.body.adoptionAgency;
+		doc.facebook = req.body.facebook;
+		doc.instagram = req.body.instagram;
+		doc.comments = req.body.comments;
+		doc.imageURL = req.file.location;
 
 		await docUpload(doc, req.body.Key);
 

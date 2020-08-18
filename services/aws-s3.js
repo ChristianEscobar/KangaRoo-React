@@ -27,7 +27,7 @@ const fileUpload = multer({
 		s3,
 		bucket: `${s3Bucket}/images`,
 		metadata: function (req, file, cb) {
-			cb(null, { fieldName: `foster_photo` });
+			cb(null, { fieldName: `foster-photo` });
 		},
 		key: function (req, file, cb) {
 			cb(
@@ -37,6 +37,20 @@ const fileUpload = multer({
 					''
 				)}-${Date.now().toString()}`
 			);
+		},
+	}),
+});
+
+const fileUpdate = multer({
+	fileFilter,
+	storage: multerS3({
+		s3,
+		bucket: `${s3Bucket}/images`,
+		metadata: function (req, file, cb) {
+			cb(null, { fieldName: `foster-photo` });
+		},
+		key: function (req, file, cb) {
+			cb(null, `${req.body.imageAwsKey}`);
 		},
 	}),
 });
@@ -119,6 +133,7 @@ const signedURL = async (awsURL) => {
 
 module.exports = {
 	fileUpload,
+	fileUpdate,
 	docUpload,
 	listDocs,
 	getDoc,

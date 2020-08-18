@@ -3,18 +3,12 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
 
-const ADD_FOSTER_URL = '/api/v1/fosters/add';
+const UPDATE_FOSTER_URL = '/api/v1/fosters/update';
 
 function inputValidation(props) {
 	if (!props.photoFile || props.photoFile === '') {
 		props.setSnackbarVariant('error');
 		props.setSnackbarMessage('A foster photo is required');
-		props.setSnackbarOpen(true);
-
-		return false;
-	} else if (!props.fosterName || props.fosterName === '') {
-		props.setSnackbarVariant('error');
-		props.setSnackbarMessage('A foster name is required');
 		props.setSnackbarOpen(true);
 
 		return false;
@@ -35,14 +29,16 @@ function inputValidation(props) {
 	return true;
 }
 
-const AddFosterActions = (props) => {
-	const handleAddFoster = async (event) => {
+const EditFosterActions = (props) => {
+	const handleUpdate = async (event) => {
 		if (event) {
 			event.preventDefault();
 			if (inputValidation(props)) {
 				try {
+					console.log('EditFosterActions props ', props);
 					let formData = new FormData();
-					formData.append('fosterName', props.fosterName);
+					formData.append('Key', props.docAwsKey);
+					formData.append('imageAwsKey', props.imageAwsKey);
 					formData.append('adoptionAgency', props.adoptionAgency);
 					formData.append(
 						'receivedDate',
@@ -61,8 +57,8 @@ const AddFosterActions = (props) => {
 					formData.append('comments', props.comments);
 					formData.append('photo', props.photoFile);
 
-					const response = await fetch(ADD_FOSTER_URL, {
-						method: 'POST',
+					const response = await fetch(UPDATE_FOSTER_URL, {
+						method: 'PUT',
 						body: formData,
 					});
 
@@ -73,9 +69,9 @@ const AddFosterActions = (props) => {
 					}
 
 					props.setSnackbarVariant('success');
-					props.setSnackbarMessage(`${props.fosterName} has been added`);
+					props.setSnackbarMessage(`${props.fosterName} has been updated`);
 					props.setSnackbarOpen(true);
-					props.clearForm();
+					props.setEdit(false);
 					props.fetchData();
 				} catch (err) {
 					props.setSnackbarVariant('error');
@@ -83,6 +79,12 @@ const AddFosterActions = (props) => {
 					props.setSnackbarOpen(true);
 				}
 			}
+		} else {
+			props.setSnackbarVariant('error');
+			props.setSnackbarMessage(
+				'Something went wrong while attempting to update details.'
+			);
+			props.setSnackbarOpen(true);
 		}
 	};
 
@@ -92,12 +94,12 @@ const AddFosterActions = (props) => {
 				fullWidth
 				variant="contained"
 				color="primary"
-				onClick={handleAddFoster}
+				onClick={handleUpdate}
 			>
-				Add Foster
+				Update Foster
 			</Button>
 		</ButtonGroup>
 	);
 };
 
-export default AddFosterActions;
+export default EditFosterActions;

@@ -33,8 +33,9 @@ const PhotoActions = (props) => {
 			props.setSnackbarOpen(true);
 			props.fetchData();
 		} catch (error) {
-			alert(error.message);
-			console.log(error);
+			props.setSnackbarVariant('error');
+			props.setSnackbarMessage(error.message);
+			props.setSnackbarOpen(true);
 		}
 	}
 
@@ -49,7 +50,8 @@ const PhotoActions = (props) => {
 				<Button onClick={setDeleting}>Delete</Button>
 			</ButtonGroup>
 			<EditFoster
-				docAwskey={props.docAwskey}
+				docAwsKey={props.docAwsKey}
+				imageAwsKey={props.imageAwsKey}
 				showDialog={edit}
 				photoURL={props.photoURL}
 				fosterName={props.fosterName}
