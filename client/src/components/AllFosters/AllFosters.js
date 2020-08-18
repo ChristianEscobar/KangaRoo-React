@@ -48,10 +48,14 @@ const AllFosters = (props) => {
 					<br />
 					<FosterCardActions
 						awskey={dataObj.aws_key}
+						photoURL={dataObj.signedURL}
 						fosterName={dataObj.fosterName}
-						received={dataObj.receivedDate}
-						adopted={dataObj.adoptedDate}
-						agency={dataObj.adoptionAgency}
+						receivedDate={dataObj.receivedDate}
+						adoptedDate={dataObj.adoptedDate}
+						adoptionAgency={dataObj.adoptionAgency}
+						facebook={dataObj.facebook}
+						instagram={dataObj.instagram}
+						comments={dataObj.comments}
 						fetchData={props.fetchData}
 						setSnackbarOpen={props.setSnackbarOpen}
 						setSnackbarVariant={props.setSnackbarVariant}

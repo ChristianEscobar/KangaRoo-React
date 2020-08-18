@@ -40,15 +40,27 @@ const useStyles = makeStyles((theme) => ({
 
 const FosterForm = (props) => {
 	const [cardPhotoFile, setCardPhotoFile] = useState('');
-	const [cardPhotoURL, setCardPhotoURL] = useState('');
-	const [fosterName, setFosterName] = useState('');
-	const [adoptionAgency, setAdoptionAgency] = useState('');
-	const [receivedDate, setReceivedDate] = useState(Date.now());
-	const [adoptedDateChecked, setAdoptedDateChecked] = React.useState(false);
-	const [adoptedDate, setAdoptedDate] = useState(Date.now());
-	const [facebook, setFacebook] = useState('');
-	const [instagram, setInstagram] = useState('');
-	const [comments, setComments] = useState('');
+	const [cardPhotoURL, setCardPhotoURL] = useState(
+		!props.photoURL ? null : props.photoURL
+	);
+	const [fosterName, setFosterName] = useState(props.fosterName);
+	const [adoptionAgency, setAdoptionAgency] = useState(props.adoptionAgency);
+	const [receivedDate, setReceivedDate] = useState(
+		!props.receivedDate || props.receivedDate.length === 0
+			? Date.now()
+			: props.receivedDate
+	);
+	const [adoptedDateChecked, setAdoptedDateChecked] = React.useState(
+		!props.adoptedDate || props.adoptedDate.length === 0 ? false : true
+	);
+	const [adoptedDate, setAdoptedDate] = useState(
+		!props.adoptedDate || props.adoptedDate.length === 0
+			? Date.now()
+			: props.adoptedDate
+	);
+	const [facebook, setFacebook] = useState(props.facebook);
+	const [instagram, setInstagram] = useState(props.instagram);
+	const [comments, setComments] = useState(props.comments);
 
 	const classes = useStyles();
 
@@ -104,23 +116,27 @@ const FosterForm = (props) => {
 	let formActionButtons;
 	if (props.adding) {
 		formActionButtons = (
-			<AddFosterActions
-				fosterName={fosterName}
-				adoptionAgency={adoptionAgency}
-				adoptedDateChecked={adoptedDateChecked}
-				receivedDate={receivedDate}
-				adoptedDate={adoptedDate}
-				photoFile={cardPhotoFile}
-				facebook={facebook}
-				instagram={instagram}
-				comments={comments}
-				fetchData={props.fetchData}
-				clearForm={clearForm}
-				setSnackbarOpen={props.setSnackbarOpen}
-				setSnackbarVariant={props.setSnackbarVariant}
-				setSnackbarMessage={props.setSnackbarMessage}
-			/>
+			<Grid item xs={12}>
+				<AddFosterActions
+					fosterName={fosterName}
+					adoptionAgency={adoptionAgency}
+					adoptedDateChecked={adoptedDateChecked}
+					receivedDate={receivedDate}
+					adoptedDate={adoptedDate}
+					photoFile={cardPhotoFile}
+					facebook={facebook}
+					instagram={instagram}
+					comments={comments}
+					fetchData={props.fetchData}
+					clearForm={clearForm}
+					setSnackbarOpen={props.setSnackbarOpen}
+					setSnackbarVariant={props.setSnackbarVariant}
+					setSnackbarMessage={props.setSnackbarMessage}
+				/>
+			</Grid>
 		);
+	} else {
+		formActionButtons = null;
 	}
 
 	return (
@@ -277,9 +293,7 @@ const FosterForm = (props) => {
 							onChange={handleCommentsChange}
 						/>
 					</Grid>
-					<Grid item xs={12}>
-						{formActionButtons}
-					</Grid>
+					{formActionButtons}
 				</Grid>
 			</Grid>
 		</div>

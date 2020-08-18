@@ -1,17 +1,18 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 import DateFnsUtils from '@date-io/date-fns';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
 import moment from 'moment';
+import FosterForm from '../FosterForm/FosterForm';
 
 const EditFoster = (props) => {
 	const [receivedDate, setReceivedDate] = React.useState(props.received);
@@ -54,55 +55,29 @@ const EditFoster = (props) => {
 	return (
 		<div>
 			<Dialog
+				fullWidth="true"
+				maxWidth="xl"
 				open={props.showDialog}
 				onClose={handleCancel}
 				aria-labelledby="form-dialog-title"
 			>
 				<DialogTitle id="form-dialog-title">Edit Details</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						Update stored details for {props.fosterName}
-					</DialogContentText>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="agency"
-						label="Adoption Agency"
-						value={adoptionAgency}
-						onChange={handleAdoptionAgencyChange}
-						type="text"
-						fullWidth
-					/>
-					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<KeyboardDatePicker
-							margin="normal"
-							fullWidth
-							id="received-date"
-							name="received-date"
-							label="Received"
-							value={receivedDate}
-							onChange={handleReceivedDateChange}
-							format="MM/dd/yyyy"
-							KeyboardButtonProps={{
-								'aria-label': 'change date',
-							}}
-						/>
-					</MuiPickersUtilsProvider>
-					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<KeyboardDatePicker
-							margin="normal"
-							fullWidth
-							id="adopted-date"
-							name="adopted-date"
-							label="Adopted"
-							value={adoptedDate}
-							onChange={handleAdoptedDateChange}
-							format="MM/dd/yyyy"
-							KeyboardButtonProps={{
-								'aria-label': 'change date',
-							}}
-						/>
-					</MuiPickersUtilsProvider>
+					<FosterForm
+						adding={false}
+						editing="true"
+						photoURL={props.photoURL}
+						fosterName={props.fosterName}
+						adoptionAgency={props.adoptionAgency}
+						receivedDate={props.receivedDate}
+						adoptedDate={props.adoptedDate}
+						facebook={props.facebook}
+						instagram={props.instagram}
+						comments={props.comments}
+						setSnackbarOpen={props.setSnackbarOpen}
+						setSnackbarVariant={props.setSnackbarVariant}
+						setSnackbarMessage={props.setSnackbarMessage}
+					></FosterForm>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCancel} color="primary">

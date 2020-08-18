@@ -51,12 +51,19 @@ const PhotoActions = (props) => {
 			<EditFoster
 				awskey={props.awskey}
 				showDialog={edit}
+				photoURL={props.photoURL}
 				fosterName={props.fosterName}
-				agency={props.agency}
-				received={props.received}
-				adopted={props.adopted}
+				adoptionAgency={props.adoptionAgency}
+				receivedDate={props.receivedDate}
+				adoptedDate={props.adoptedDate}
+				facebook={props.facebook}
+				instagram={props.instagram}
+				comments={props.comments}
 				setEdit={setEdit}
 				fetchData={props.fetchData}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
 			/>
 			<ConfirmationDialog
 				showDialog={deleting}
