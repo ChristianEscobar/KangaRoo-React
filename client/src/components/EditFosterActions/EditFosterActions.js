@@ -35,9 +35,9 @@ const EditFosterActions = (props) => {
 			event.preventDefault();
 			if (inputValidation(props)) {
 				try {
-					console.log('EditFosterActions props ', props);
 					let formData = new FormData();
 					formData.append('Key', props.docAwsKey);
+					formData.append('fosterName', props.fosterName);
 					formData.append('imageAwsKey', props.imageAwsKey);
 					formData.append('adoptionAgency', props.adoptionAgency);
 					formData.append(

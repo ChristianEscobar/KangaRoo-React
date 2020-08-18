@@ -44,8 +44,14 @@ const FosterForm = (props) => {
 	const [cardPhotoURL, setCardPhotoURL] = useState(
 		!props.photoURL ? '' : props.photoURL
 	);
-	const [fosterName, setFosterName] = useState(props.fosterName);
-	const [adoptionAgency, setAdoptionAgency] = useState(props.adoptionAgency);
+	const [fosterName, setFosterName] = useState(
+		!props.fosterName || props.fosterName.length === 0 ? '' : props.fosterName
+	);
+	const [adoptionAgency, setAdoptionAgency] = useState(
+		!props.adoptionAgency || props.adoptionAgency.length === 0
+			? ''
+			: props.adoptionAgency
+	);
 	const [receivedDate, setReceivedDate] = useState(
 		!props.receivedDate || props.receivedDate.length === 0
 			? Date.now()
@@ -59,9 +65,15 @@ const FosterForm = (props) => {
 			? Date.now()
 			: props.adoptedDate
 	);
-	const [facebook, setFacebook] = useState(props.facebook);
-	const [instagram, setInstagram] = useState(props.instagram);
-	const [comments, setComments] = useState(props.comments);
+	const [facebook, setFacebook] = useState(
+		!props.facebook || props.facebook.length === 0 ? '' : props.facebook
+	);
+	const [instagram, setInstagram] = useState(
+		!props.instagram || props.instagram.length === 0 ? '' : props.instagram
+	);
+	const [comments, setComments] = useState(
+		!props.comments || props.comments.length === 0 ? '' : props.comments
+	);
 
 	const classes = useStyles();
 
@@ -142,7 +154,7 @@ const FosterForm = (props) => {
 			<EditFosterActions
 				docAwsKey={props.docAwsKey}
 				imageAwsKey={props.imageAwsKey}
-				fosterName={fosterName}
+				fosterName={props.fosterName}
 				adoptionAgency={adoptionAgency}
 				adoptedDateChecked={adoptedDateChecked}
 				receivedDate={receivedDate}
