@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const FosterForm = (props) => {
 	const [cardPhotoFile, setCardPhotoFile] = useState('');
 	const [cardPhotoURL, setCardPhotoURL] = useState(
-		!props.photoURL ? '' : props.photoURL
+		!props.photoURL || props.photoURL.length === 0 ? '' : props.photoURL
 	);
 	const [fosterName, setFosterName] = useState(
 		!props.fosterName || props.fosterName.length === 0 ? '' : props.fosterName

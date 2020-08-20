@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const util = require('util');
+const multer = require('multer');
+
+const upload = multer();
 
 const {
 	fileUpload,
@@ -16,6 +19,18 @@ const singleImageUpdate = util.promisify(fileUpdate.single('photo'));
 
 const getImageKey = (imageURL) => {
 	return imageURL.substring(imageURL.indexOf('images/') + 7);
+};
+
+const validateRequiredInput = (req) => {
+	if (
+		!req.body.fosterName ||
+		!req.body.adoptionAgency ||
+		!req.body.receivedDate
+	) {
+		return false;
+	}
+
+	return true;
 };
 
 router.post('/add', async (req, res) => {
@@ -34,11 +49,12 @@ router.post('/add', async (req, res) => {
 		};
 		await docUpload(doc);
 
-		return res.status(201).json({
+		res.status(201).json({
 			doc,
 		});
 	} catch (error) {
-		return res.status(422).json({
+		console.error(error.message);
+		res.status(422).json({
 			errors: [{ title: 'S3 Upload Error', detail: error.message }],
 		});
 	}
@@ -55,20 +71,24 @@ router.delete('/delete', async (req, res) => {
 		);
 
 		const response = await deleteDoc([req.body.Key, imagePath]);
-		return res.status(200).json(response);
+		res.status(200).json(response);
 	} catch (error) {
-		return res.status(500).json({
+		console.error(error.message);
+		res.status(500).json({
 			errors: [{ title: 'S3 Delete Error', detail: error.message }],
 		});
 	}
 });
 
-router.put('/update', async (req, res) => {
+router.put('/update', fileUpdate.single('photo'), async (req, res) => {
 	try {
-		console.log('body -> ', req.body);
-		console.log('file -> ', req.file);
-		await singleImageUpdate(req, res);
-		console.log('file -> ', req.file);
+		if (!validateRequiredInput(req)) {
+			throw new Error('Missing required input');
+		}
+
+		if (req.body.photo) {
+			await singleImageUpdate(req, res);
+		}
 
 		const doc = await getDoc(req.body.Key);
 		doc.fosterName = req.body.fosterName;
@@ -78,16 +98,18 @@ router.put('/update', async (req, res) => {
 		doc.facebook = req.body.facebook;
 		doc.instagram = req.body.instagram;
 		doc.comments = req.body.comments;
-		doc.imageURL = req.file.location;
+		doc.imageURL = req.file ? req.file.location : doc.imageURL;
 
 		await docUpload(doc, req.body.Key);
 
-		return res.status(200).json({
+		res.status(200).json({
 			doc,
 		});
 	} catch (error) {
-		return res.status(500).json({
-			errors: [{ title: 'S3 Update Error', detail: error.message }],
+		console.error(error.message);
+		res.status(500).json({
+			title: 'S3 Update Error',
+			detail: error.message,
 		});
 	}
 });
@@ -118,9 +140,10 @@ router.get('/', async (req, res) => {
 			return a.lastModifiedMillis - b.lastModifiedMillis;
 		});
 
-		return res.status(200).json({ docs });
+		res.status(200).json({ docs });
 	} catch (error) {
-		return res.status(422).json({
+		console.error(error.message);
+		res.status(422).json({
 			errors: [{ title: 'S3 Read Error', detail: error.message }],
 		});
 	}

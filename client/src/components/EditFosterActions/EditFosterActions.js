@@ -6,13 +6,7 @@ import moment from 'moment';
 const UPDATE_FOSTER_URL = '/api/v1/fosters/update';
 
 function inputValidation(props) {
-	if (!props.photoFile || props.photoFile === '') {
-		props.setSnackbarVariant('error');
-		props.setSnackbarMessage('A foster photo is required');
-		props.setSnackbarOpen(true);
-
-		return false;
-	} else if (!props.receivedDate || props.receivedDate === '') {
+	if (!props.receivedDate || props.receivedDate === '') {
 		props.setSnackbarVariant('error');
 		props.setSnackbarMessage('A received date is required');
 		props.setSnackbarOpen(true);
@@ -64,7 +58,7 @@ const EditFosterActions = (props) => {
 
 					if (!response.ok) {
 						throw new Error(
-							`Status:  ${response.status} Message: ${response.statusText}`
+							'Error encountered while attempting to update details'
 						);
 					}
 

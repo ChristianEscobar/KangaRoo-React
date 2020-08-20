@@ -22,7 +22,7 @@ const EditFoster = (props) => {
 	return (
 		<div>
 			<Dialog
-				fullWidth="true"
+				fullWidth={true}
 				maxWidth="xl"
 				open={props.showDialog}
 				onClose={handleCancel}
