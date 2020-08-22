@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const util = require('util');
-const multer = require('multer');
-
-const upload = multer();
 
 const {
 	fileUpload,
