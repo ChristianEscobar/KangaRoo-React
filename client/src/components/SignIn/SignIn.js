@@ -60,6 +60,7 @@ export default function SignIn() {
 	const handleUsernameChange = (event) => {
 		if (event.target.value.length === 0 || event.target.value === ' ') {
 			setUsernameError(true);
+			setUsername(event.target.value);
 			setUsernameHelperText('Invalid username');
 			setButtonDisabled(true);
 		} else {
@@ -73,6 +74,7 @@ export default function SignIn() {
 	const handlePasswordChange = (event) => {
 		if (event.target.value.length === 0 || event.target.value === ' ') {
 			setPasswordError(true);
+			setPassword(event.target.value);
 			setPasswordHelperText('Invalid password');
 			setButtonDisabled(true);
 		} else {
