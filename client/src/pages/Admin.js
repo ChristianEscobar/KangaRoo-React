@@ -13,10 +13,11 @@ const Admin = () => {
 	const [snackbarVariant, setSnackbarVariant] = useState('');
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 
-	useEffect(async () => {
-		(async function getFosters() {
+	useEffect(() => {
+		async function getFosters() {
 			await fetchData();
-		})();
+		}
+		getFosters();
 	}, []);
 
 	const handleSnackbarClose = (event, reason) => {
