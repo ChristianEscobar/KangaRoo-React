@@ -8,7 +8,7 @@ const NavBar = function () {
 		<div>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography variant="h6">Kanga Roo - Admin</Typography>
+					<Typography variant="h6">Kanga Roo</Typography>
 				</Toolbar>
 			</AppBar>
 		</div>

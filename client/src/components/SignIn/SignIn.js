@@ -119,7 +119,7 @@ export default function SignIn() {
 	const classes = useStyles();
 
 	if (redirectToAdminPage) {
-		return <Redirect to="/admin" />;
+		return <Redirect to={{ pathname: '/admin' }} />;
 	}
 
 	return (
