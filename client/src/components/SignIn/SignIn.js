@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -56,6 +57,7 @@ export default function SignIn() {
 	const [usernameHelperText, setUsernameHelperText] = useState('');
 	const [passwordHelperText, setPasswordHelperText] = useState('');
 	const [buttonDisabled, setButtonDisabled] = useState(true);
+	const [redirectToAdminPage, setRedirectToAdminPage] = useState(false);
 
 	const handleUsernameChange = (event) => {
 		if (event.target.value.length === 0 || event.target.value === ' ') {
@@ -106,6 +108,8 @@ export default function SignIn() {
 						`Status:  ${response.status} Message: ${response.statusText}`
 					);
 				}
+
+				setRedirectToAdminPage(true);
 			}
 		} catch (error) {
 			console.log(error.message);
@@ -113,6 +117,10 @@ export default function SignIn() {
 	};
 
 	const classes = useStyles();
+
+	if (redirectToAdminPage) {
+		return <Redirect to="/admin" />;
+	}
 
 	return (
 		<Container component="main" maxWidth="xs">
