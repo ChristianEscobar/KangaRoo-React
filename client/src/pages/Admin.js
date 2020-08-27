@@ -21,7 +21,7 @@ const Admin = (props) => {
 		if (props.location.authenticated) {
 			getFosters();
 		}
-	}, []);
+	}, [props.location.authenticated]);
 
 	const handleSnackbarClose = (event, reason) => {
 		if (reason === 'clickaway') {

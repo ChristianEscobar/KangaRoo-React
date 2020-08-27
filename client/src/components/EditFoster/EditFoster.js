@@ -3,15 +3,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
-} from '@material-ui/pickers';
-import moment from 'moment';
 import FosterForm from '../FosterForm/FosterForm';
 
 const EditFoster = (props) => {

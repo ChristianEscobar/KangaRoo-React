@@ -20,7 +20,7 @@ const ProtectedRoute = (props) => {
 		});
 
 		return () => (mounted = false);
-	}, [authenticated]);
+	}, []);
 
 	async function getAuthUser() {
 		const response = await fetch(AUTH_URL, {
