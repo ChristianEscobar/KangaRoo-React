@@ -3,10 +3,12 @@ import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import SnackbarContentWrapper from '../components/SnackbarContentWrapper/SnackbarContentWrapper';
 import AllFosters from '../components/AllFosters/AllFosters';
 import AddFoster from '../components/AddFoster/AddFoster';
+import { Redirect } from 'react-router-dom';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
 
-const Admin = () => {
+const Admin = (props) => {
+	console.log('in admin ', props);
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -17,8 +19,11 @@ const Admin = () => {
 		async function getFosters() {
 			await fetchData();
 		}
-		getFosters();
-	}, []);
+		if (props.authenticated) {
+			console.log('before getFosters');
+			getFosters();
+		}
+	}, [data]);
 
 	const handleSnackbarClose = (event, reason) => {
 		if (reason === 'clickaway') {
@@ -33,6 +38,11 @@ const Admin = () => {
 		const response = await fetch(GET_FOSTERS_URL);
 		setData(await response.json());
 		setLoading(false);
+	}
+
+	if (!props.location.authenticated) {
+		console.log('redirecting to login');
+		return <Redirect to={{ pathname: '/login' }} />;
 	}
 
 	return (

@@ -93,8 +93,11 @@ export default function SignIn() {
 				event.preventDefault();
 				const response = await fetch(AUTH_URL, {
 					method: 'POST',
+					credentials: 'include',
 					headers: {
+						Accept: 'application/json',
 						'Content-Type': 'application/json',
+						'Access-Control-Allow-Credentials': true,
 					},
 					body: JSON.stringify({
 						username,
@@ -108,7 +111,6 @@ export default function SignIn() {
 						`Status:  ${response.status} Message: ${response.statusText}`
 					);
 				}
-
 				setRedirectToAdminPage(true);
 			}
 		} catch (error) {
@@ -119,7 +121,8 @@ export default function SignIn() {
 	const classes = useStyles();
 
 	if (redirectToAdminPage) {
-		return <Redirect to={{ pathname: '/admin' }} />;
+		console.log('redirecting to admin');
+		return <Redirect to={{ pathname: '/admin', authenticated: true }} />;
 	}
 
 	return (

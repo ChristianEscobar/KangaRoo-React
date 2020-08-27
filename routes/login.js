@@ -22,8 +22,26 @@ const authRouter = function (passport) {
 		}
 	);
 
-	router.get('/user', (req, res) => {
-		res.send(req.user);
+	router.get('/user', async (req, res) => {
+		async function getUser() {
+			if (req.user) {
+				return {
+					success: true,
+					message: 'user has been authenticated',
+					username: req.user.username,
+					cookies: req.cookies,
+				};
+			}
+
+			return {
+				success: false,
+				message: 'user has not been authenticated',
+				username: null,
+				cookies: null,
+			};
+		}
+
+		getUser().then((value) => res.json(value));
 	});
 
 	return router;
