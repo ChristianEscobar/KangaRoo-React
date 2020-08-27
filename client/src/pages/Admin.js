@@ -8,7 +8,6 @@ import { Redirect } from 'react-router-dom';
 const GET_FOSTERS_URL = '/api/v1/fosters';
 
 const Admin = (props) => {
-	console.log('in admin ', props);
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -19,11 +18,10 @@ const Admin = (props) => {
 		async function getFosters() {
 			await fetchData();
 		}
-		if (props.authenticated) {
-			console.log('before getFosters');
+		if (props.location.authenticated) {
 			getFosters();
 		}
-	}, [data]);
+	}, []);
 
 	const handleSnackbarClose = (event, reason) => {
 		if (reason === 'clickaway') {
@@ -41,7 +39,6 @@ const Admin = (props) => {
 	}
 
 	if (!props.location.authenticated) {
-		console.log('redirecting to login');
 		return <Redirect to={{ pathname: '/login' }} />;
 	}
 

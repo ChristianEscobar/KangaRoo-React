@@ -106,7 +106,6 @@ export default function SignIn() {
 				});
 
 				if (!response.ok) {
-					console.log(response);
 					throw new Error(
 						`Status:  ${response.status} Message: ${response.statusText}`
 					);
@@ -121,7 +120,6 @@ export default function SignIn() {
 	const classes = useStyles();
 
 	if (redirectToAdminPage) {
-		console.log('redirecting to admin');
 		return <Redirect to={{ pathname: '/admin', authenticated: true }} />;
 	}
 

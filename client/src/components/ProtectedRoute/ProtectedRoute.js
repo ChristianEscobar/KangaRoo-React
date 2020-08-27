@@ -9,12 +9,8 @@ const ProtectedRoute = (props) => {
 
 	useEffect(() => {
 		let mounted = true;
-		console.log('mounted ', mounted);
 		getAuthUser().then((result) => {
-			console.log('before if', mounted);
-			console.log('result ', result);
 			if (mounted) {
-				console.log('-> ', result);
 				if (result.success) {
 					setAuthenticated(true);
 				} else {
