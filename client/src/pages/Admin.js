@@ -6,6 +6,7 @@ import AddFoster from '../components/AddFoster/AddFoster';
 import { Redirect } from 'react-router-dom';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
+const AUTH_URL = '/api/v1/auth/user';
 
 const Admin = (props) => {
 	const [data, setData] = useState([]);
@@ -18,10 +19,15 @@ const Admin = (props) => {
 		async function getFosters() {
 			await fetchData();
 		}
-		if (props.location.authenticated) {
+
+		async function userAuthenticated() {
+			return await isUserAuthenticated();
+		}
+
+		if (userAuthenticated()) {
 			getFosters();
 		}
-	}, [props.location.authenticated]);
+	}, []);
 
 	const handleSnackbarClose = (event, reason) => {
 		if (reason === 'clickaway') {
@@ -31,6 +37,12 @@ const Admin = (props) => {
 		setSnackbarOpen(false);
 	};
 
+	async function isUserAuthenticated() {
+		const response = await fetch(AUTH_URL);
+		const jsonResponse = await response.json();
+		return jsonResponse.authenticated;
+	}
+
 	async function fetchData() {
 		setLoading(true);
 		const response = await fetch(GET_FOSTERS_URL);
@@ -38,7 +50,7 @@ const Admin = (props) => {
 		setLoading(false);
 	}
 
-	if (!props.location.authenticated) {
+	if (!isUserAuthenticated()) {
 		return <Redirect to={{ pathname: '/login' }} />;
 	}
 
