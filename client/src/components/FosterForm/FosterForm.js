@@ -20,6 +20,7 @@ import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
 import AddFosterActions from '../AddFosterActions/AddFosterActions';
 import EditFosterActions from '../EditFosterActions/EditFosterActions';
+import PlaceholderImage from '../../images/cat-placeholder-2.png';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	card: {
 		maxWidth: 750,
+		maxHeight: 500,
 		margin: 'auto',
+		textAlign: 'center',
 	},
 	media: {
 		height: 365,
@@ -37,12 +40,18 @@ const useStyles = makeStyles((theme) => ({
 	cardActions: {
 		justifyContent: 'center',
 	},
+	image: {
+		maxWidth: '100%',
+		maxHeight: '100%',
+	},
 }));
 
 const FosterForm = (props) => {
 	const [cardPhotoFile, setCardPhotoFile] = useState('');
 	const [cardPhotoURL, setCardPhotoURL] = useState(
-		!props.photoURL || props.photoURL.length === 0 ? '' : props.photoURL
+		!props.photoURL || props.photoURL.length === 0
+			? PlaceholderImage
+			: props.photoURL
 	);
 	const [fosterName, setFosterName] = useState(
 		!props.fosterName || props.fosterName.length === 0 ? '' : props.fosterName
@@ -57,7 +66,7 @@ const FosterForm = (props) => {
 			? Date.now()
 			: props.receivedDate
 	);
-	const [adoptedDateChecked, setAdoptedDateChecked] = React.useState(
+	const [adoptedDateChecked, setAdoptedDateChecked] = useState(
 		!props.adoptedDate || props.adoptedDate.length === 0 ? false : true
 	);
 	const [adoptedDate, setAdoptedDate] = useState(
@@ -179,11 +188,15 @@ const FosterForm = (props) => {
 				<Grid item xs={6}>
 					<Card className={classes.card}>
 						<CardActionArea>
-							<CardMedia
+							{/* <CardMedia
+								component="img"
 								className={classes.media}
 								image={cardPhotoURL}
 								title="Foster Photo"
-							/>
+							/> */}
+							<div className={classes.image}>
+								<img src={cardPhotoURL}></img>
+							</div>
 						</CardActionArea>
 						<CardActions className={classes.cardActions}>
 							<Button

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,8 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { UserContext } from '../../contexts/UserContext';
 
-const AUTH_URL = '/api/v1/auth/login';
+const LOGIN_URL = '/api/v1/auth/login';
+const USER_URL = '/api/v1/auth/user';
 
 function Copyright() {
 	return (
@@ -58,6 +60,8 @@ export default function SignIn() {
 	const [buttonDisabled, setButtonDisabled] = useState(true);
 	const [redirectToAdminPage, setRedirectToAdminPage] = useState(false);
 
+	const { user, setUser } = useContext(UserContext);
+
 	const handleUsernameChange = (event) => {
 		if (event.target.value.length === 0 || event.target.value === ' ') {
 			setUsernameError(true);
@@ -90,7 +94,7 @@ export default function SignIn() {
 		try {
 			if (event) {
 				event.preventDefault();
-				const response = await fetch(AUTH_URL, {
+				const loginResponse = await fetch(LOGIN_URL, {
 					method: 'POST',
 					credentials: 'include',
 					headers: {
@@ -104,11 +108,31 @@ export default function SignIn() {
 					}),
 				});
 
-				if (!response.ok) {
+				if (!loginResponse.ok) {
 					throw new Error(
-						`Status:  ${response.status} Message: ${response.statusText}`
+						`Status:  ${loginResponse.status} Message: ${loginResponse.statusText}`
 					);
 				}
+
+				// Get the user details
+				const userResponse = await fetch(USER_URL, {
+					method: 'GET',
+					credentials: 'include',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Credentials': true,
+					},
+				});
+
+				if (!userResponse.ok) {
+					throw new Error(
+						`Status:  ${userResponse.status} Message: ${userResponse.statusText}`
+					);
+				}
+
+				const userResponseJson = await userResponse.json();
+				setUser(userResponseJson);
 				setRedirectToAdminPage(true);
 			}
 		} catch (error) {
