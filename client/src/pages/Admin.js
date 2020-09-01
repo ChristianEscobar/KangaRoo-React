@@ -4,6 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import SnackbarContentWrapper from '../components/SnackbarContentWrapper/SnackbarContentWrapper';
 import AllFosters from '../components/AllFosters/AllFosters';
 import AddFoster from '../components/AddFoster/AddFoster';
+import NavBarAdmin from '../components/NavBarAdmin/NavBarAdmin';
 import { UserContext } from '../contexts/UserContext';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
@@ -16,7 +17,7 @@ const Admin = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 
 	const componentIsMounted = useRef(true);
-	const { user } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 
 	useEffect(() => {
 		// each useEffect can return a cleanup function
@@ -57,6 +58,7 @@ const Admin = () => {
 
 	return (
 		<div>
+			<NavBarAdmin />
 			<AddFoster
 				fetchData={fetchData}
 				setSnackbarOpen={setSnackbarOpen}
