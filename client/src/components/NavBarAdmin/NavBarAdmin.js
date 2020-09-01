@@ -48,7 +48,7 @@ const NavBarAdmin = function () {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>
-						Kanga Roo - Admin
+						KangaRoo - Admin Page
 					</Typography>
 					<Button color="inherit" onClick={handleLogout}>
 						Logout
