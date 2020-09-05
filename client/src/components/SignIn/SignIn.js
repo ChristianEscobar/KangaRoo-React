@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [usernameError, setUsernameError] = useState(false);
@@ -72,7 +72,11 @@ export default function SignIn() {
 			setUsernameError(false);
 			setUsername(event.target.value);
 			setUsernameHelperText('');
-			setButtonDisabled(false);
+			if (password.length > 0) {
+				setButtonDisabled(false);
+			} else {
+				setButtonDisabled(true);
+			}
 		}
 	};
 
@@ -86,7 +90,11 @@ export default function SignIn() {
 			setPasswordError(false);
 			setPassword(event.target.value);
 			setPasswordHelperText('');
-			setButtonDisabled(false);
+			if (username.length > 0) {
+				setButtonDisabled(false);
+			} else {
+				setButtonDisabled(true);
+			}
 		}
 	};
 
@@ -109,6 +117,9 @@ export default function SignIn() {
 				});
 
 				if (!loginResponse.ok) {
+					props.setSnackbarVariant('error');
+					props.setSnackbarMessage('Invalid Username or Password');
+					props.setSnackbarOpen(true);
 					throw new Error(
 						`Status:  ${loginResponse.status} Message: ${loginResponse.statusText}`
 					);
@@ -126,6 +137,9 @@ export default function SignIn() {
 				});
 
 				if (!userResponse.ok) {
+					props.setSnackbarVariant('error');
+					props.setSnackbarMessage('Error encountered attepting to login');
+					props.setSnackbarOpen(true);
 					throw new Error(
 						`Status:  ${userResponse.status} Message: ${userResponse.statusText}`
 					);

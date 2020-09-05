@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	button: {},
 }));
 
-const NavBarAdmin = function () {
+const NavBarAdmin = function (props) {
 	const { user, setUser } = useContext(UserContext);
 
 	const classes = useStyles();
@@ -31,6 +31,9 @@ const NavBarAdmin = function () {
 		if (event) {
 			event.preventDefault();
 			setUser({});
+			props.setSnackbarVariant('info');
+			props.setSnackbarMessage('Successfully logged out');
+			props.setSnackbarOpen(true);
 			return <Redirect to={{ pathname: '/login' }} />;
 		}
 	};

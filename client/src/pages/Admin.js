@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import Snackbar from '@material-ui/core/Snackbar/Snackbar';
-import SnackbarContentWrapper from '../components/SnackbarContentWrapper/SnackbarContentWrapper';
 import AllFosters from '../components/AllFosters/AllFosters';
 import AddFoster from '../components/AddFoster/AddFoster';
 import NavBarAdmin from '../components/NavBarAdmin/NavBarAdmin';
@@ -9,12 +7,9 @@ import { UserContext } from '../contexts/UserContext';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
 
-const Admin = () => {
+const Admin = (props) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [snackbarOpen, setSnackbarOpen] = useState(false);
-	const [snackbarVariant, setSnackbarVariant] = useState('');
-	const [snackbarMessage, setSnackbarMessage] = useState('');
 
 	const componentIsMounted = useRef(true);
 	const { user, setUser } = useContext(UserContext);
@@ -37,14 +32,6 @@ const Admin = () => {
 		}
 	}, []);
 
-	const handleSnackbarClose = (event, reason) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setSnackbarOpen(false);
-	};
-
 	async function fetchData() {
 		setLoading(true);
 		const response = await fetch(GET_FOSTERS_URL);
@@ -58,37 +45,25 @@ const Admin = () => {
 
 	return (
 		<div>
-			<NavBarAdmin />
+			<NavBarAdmin
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
+			/>
 			<AddFoster
 				fetchData={fetchData}
-				setSnackbarOpen={setSnackbarOpen}
-				setSnackbarVariant={setSnackbarVariant}
-				setSnackbarMessage={setSnackbarMessage}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
 			/>
 			<AllFosters
 				data={data}
 				loading={loading}
 				fetchData={fetchData}
-				setSnackbarOpen={setSnackbarOpen}
-				setSnackbarVariant={setSnackbarVariant}
-				setSnackbarMessage={setSnackbarMessage}
+				setSnackbarOpen={props.setSnackbarOpen}
+				setSnackbarVariant={props.setSnackbarVariant}
+				setSnackbarMessage={props.setSnackbarMessage}
 			/>
-
-			<Snackbar
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left',
-				}}
-				open={snackbarOpen}
-				autoHideDuration={6000}
-				onClose={handleSnackbarClose}
-			>
-				<SnackbarContentWrapper
-					onClose={handleSnackbarClose}
-					variant={snackbarVariant}
-					message={snackbarMessage}
-				/>
-			</Snackbar>
 		</div>
 	);
 };
