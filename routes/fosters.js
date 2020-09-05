@@ -11,13 +11,6 @@ const {
 	deleteDoc,
 } = require('../services/aws-s3');
 
-const singleImageUpload = util.promisify(fileUpload.single('photo'));
-const singleImageUpdate = util.promisify(fileUpdate.single('photo'));
-
-const getImageKey = (imageURL) => {
-	return imageURL.substring(imageURL.indexOf('images/') + 7);
-};
-
 const validateRequiredInput = (req) => {
 	if (
 		!req.body.fosterName ||
@@ -30,9 +23,13 @@ const validateRequiredInput = (req) => {
 	return true;
 };
 
-router.post('/add', async (req, res) => {
+router.post('/add', fileUpload.single('photo'), async (req, res) => {
 	try {
-		await singleImageUpload(req, res);
+		if (!validateRequiredInput(req)) {
+			throw new Error('Missing required input');
+		}
+
+		// await singleImageUpload(req, res);
 
 		const doc = {
 			fosterName: req.body.fosterName,
@@ -43,6 +40,7 @@ router.post('/add', async (req, res) => {
 			instagram: req.body.instagram,
 			comments: req.body.comments,
 			imageURL: req.file.location,
+			imageKey: req.file.key,
 		};
 		await docUpload(doc);
 
@@ -83,21 +81,28 @@ router.put('/update', fileUpdate.single('photo'), async (req, res) => {
 			throw new Error('Missing required input');
 		}
 
-		if (req.body.photo) {
-			await singleImageUpdate(req, res);
-		}
+		const {
+			docAwsKey,
+			fosterName,
+			receivedDate,
+			adoptedDate,
+			adoptionAgency,
+			facebook,
+			instagram,
+			comments,
+		} = req.body;
 
-		const doc = await getDoc(req.body.Key);
-		doc.fosterName = req.body.fosterName;
-		doc.receivedDate = req.body.receivedDate;
-		doc.adoptedDate = req.body.adoptedDate;
-		doc.adoptionAgency = req.body.adoptionAgency;
-		doc.facebook = req.body.facebook;
-		doc.instagram = req.body.instagram;
-		doc.comments = req.body.comments;
+		const doc = await getDoc(docAwsKey);
+		doc.fosterName = fosterName;
+		doc.receivedDate = receivedDate;
+		doc.adoptedDate = adoptedDate;
+		doc.adoptionAgency = adoptionAgency;
+		doc.facebook = facebook;
+		doc.instagram = instagram;
+		doc.comments = comments;
 		doc.imageURL = req.file ? req.file.location : doc.imageURL;
 
-		await docUpload(doc, req.body.Key);
+		await docUpload(doc, docAwsKey);
 
 		res.status(200).json({
 			doc,
@@ -124,7 +129,7 @@ router.get('/', async (req, res) => {
 		await Promise.all(
 			contents.map(async (obj) => {
 				const doc = await getDoc(obj.Key);
-				doc.imageAwsKey = getImageKey(doc.imageURL);
+				doc.imageAwsKey = doc.imageKey;
 				doc.docAwsKey = obj.Key;
 				doc.lastModified = obj.LastModified;
 				doc.lastModifiedMillis = Date.parse(obj.LastModified);

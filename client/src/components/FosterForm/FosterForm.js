@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FosterForm = (props) => {
-	const [cardPhotoFile, setCardPhotoFile] = useState('');
+	const [cardPhotoFile, setCardPhotoFile] = useState();
 	const [cardPhotoURL, setCardPhotoURL] = useState(
 		!props.photoURL || props.photoURL.length === 0
 			? PlaceholderImage
@@ -125,7 +125,7 @@ const FosterForm = (props) => {
 		setAdoptedDate(Date.now());
 		setAdoptionAgency('');
 		setCardPhotoFile('');
-		setCardPhotoURL('');
+		setCardPhotoURL(PlaceholderImage);
 		setFacebook('');
 		setInstagram('');
 		setComments('');

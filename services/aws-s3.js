@@ -30,7 +30,7 @@ const fileUpload = multer({
 			cb(null, { fieldName: `foster-photo` });
 		},
 		key: function (req, file, cb) {
-			cb(null, `${req.body.fosterName}-${Date.now().toString()}`);
+			cb(null, `${encodeURI(req.body.fosterName)}-${Date.now().toString()}`);
 		},
 	}),
 });
@@ -69,10 +69,14 @@ const listDocs = async () => {
 	return s3.listObjectsV2(params).promise();
 };
 
-const getDoc = async (key) => {
+const getDoc = async (docKey) => {
+	if (!docKey || docKey.length === 0) {
+		throw new Error('Missing document key value');
+	}
+
 	const params = {
 		Bucket: s3Bucket,
-		Key: key,
+		Key: docKey,
 	};
 
 	const docBuffer = await s3.getObject(params).promise();
