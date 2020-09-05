@@ -52,9 +52,9 @@ const Admin = () => {
 		setLoading(false);
 	}
 
-	if (!user || !user.authenticated) {
-		return <Redirect to={{ pathname: '/login' }} />;
-	}
+	// if (!user || !user.authenticated) {
+	// 	return <Redirect to={{ pathname: '/login' }} />;
+	// }
 
 	return (
 		<div>

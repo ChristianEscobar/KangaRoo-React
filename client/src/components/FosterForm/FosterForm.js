@@ -24,25 +24,21 @@ import PlaceholderImage from '../../images/cat-placeholder-2.png';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 1,
 		padding: '5%',
-	},
-	card: {
-		maxWidth: 750,
-		maxHeight: 500,
-		margin: 'auto',
-		textAlign: 'center',
-	},
-	media: {
-		height: 365,
-		backgroundSize: 'cover',
+		display: 'flex',
+		flexDirection: 'row',
 	},
 	cardActions: {
 		justifyContent: 'center',
 	},
+	imageContainer: {
+		padding: '10px',
+	},
 	image: {
-		maxWidth: '100%',
-		maxHeight: '100%',
+		width: '350px',
+	},
+	formContainer: {
+		flexGrow: 1,
 	},
 }));
 
@@ -184,41 +180,40 @@ const FosterForm = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<Grid container spacing={2}>
-				<Grid item xs={6}>
-					<Card className={classes.card}>
-						<CardActionArea>
-							{/* <CardMedia
-								component="img"
-								className={classes.media}
-								image={cardPhotoURL}
-								title="Foster Photo"
-							/> */}
-							<div className={classes.image}>
-								<img src={cardPhotoURL}></img>
-							</div>
-						</CardActionArea>
-						<CardActions className={classes.cardActions}>
-							<Button
-								size="small"
-								variant="contained"
-								color="primary"
-								component="label"
-							>
-								<Input
-									type="file"
-									id="foster-photo"
-									name="foster-photo"
-									style={{ display: 'none' }}
-									onChange={handlePhotoUpload}
-								/>
-								Upload Photo
-							</Button>
-						</CardActions>
-					</Card>
+			<Grid container sm spacing={2} className={classes.imageContainer}>
+				<Grid container item>
+					<Grid item>
+						<Card>
+							<CardActionArea>
+								<div>
+									<img src={cardPhotoURL} className={classes.image}></img>
+								</div>
+							</CardActionArea>
+							<CardActions className={classes.cardActions}>
+								<Button
+									size="small"
+									variant="contained"
+									color="primary"
+									component="label"
+								>
+									<Input
+										type="file"
+										id="foster-photo"
+										name="foster-photo"
+										style={{ display: 'none' }}
+										onChange={handlePhotoUpload}
+									/>
+									Upload Photo
+								</Button>
+							</CardActions>
+						</Card>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} sm container spacing={2}>
-					<Grid item xs={6}>
+			</Grid>
+
+			<Grid container className={classes.formContainer}>
+				<Grid container item spacing={3}>
+					<Grid item sm={3}>
 						<TextField
 							disabled={disableFosterName}
 							fullWidth
@@ -233,7 +228,7 @@ const FosterForm = (props) => {
 							autoFocus
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item sm={3}>
 						<TextField
 							fullWidth
 							variant="standard"
@@ -246,7 +241,9 @@ const FosterForm = (props) => {
 							onChange={handleAdoptionAgencyChange}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+				</Grid>
+				<Grid container item spacing={3}>
+					<Grid item sm={3}>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<KeyboardDatePicker
 								margin="normal"
@@ -289,7 +286,9 @@ const FosterForm = (props) => {
 							/>
 						</Grid>
 					</Grid>
-					<Grid item xs={6}>
+				</Grid>
+				<Grid container item spacing={3}>
+					<Grid item sm={3}>
 						<TextField
 							fullWidth
 							variant="standard"
@@ -308,7 +307,7 @@ const FosterForm = (props) => {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item sm={3}>
 						<TextField
 							fullWidth
 							variant="standard"
@@ -327,7 +326,9 @@ const FosterForm = (props) => {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={12}>
+				</Grid>
+				<Grid container item spacing={3}>
+					<Grid item sm={6}>
 						<TextField
 							fullWidth
 							multiline
@@ -341,9 +342,9 @@ const FosterForm = (props) => {
 							onChange={handleCommentsChange}
 						/>
 					</Grid>
-					<Grid item xs={12}>
-						{formActionButtons}
-					</Grid>
+				</Grid>
+				<Grid container item spacing={3} sm={6}>
+					<Grid item>{formActionButtons}</Grid>
 				</Grid>
 			</Grid>
 		</div>
