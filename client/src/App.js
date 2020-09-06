@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import Home from './pages/Home';
-import Admin from './pages/Admin';
-import SignIn from './components/SignIn/SignIn';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import SnackbarContentWrapper from './components/SnackbarContentWrapper/SnackbarContentWrapper';
 import { UserContext } from './contexts/UserContext';
+import Home from './pages/Home';
+import Admin from './pages/Admin';
+import About from './pages/About';
+import Fosters from './pages/Fosters';
+import Publications from './pages/Publications';
+import Adopt from './pages/Adopt';
+import SignIn from './components/SignIn/SignIn';
 import './App.css';
 
 function AppRouter() {
@@ -50,6 +54,10 @@ function AppRouter() {
 						)}
 					/>
 					<Route path="/" exact component={Home} />
+					<Route path="/about" exact component={About} />
+					<Route path="/fosters" exact component={Fosters} />
+					<Route path="/publications" exact component={Publications} />
+					<Route path="/adopt" exact component={Adopt} />
 				</UserContext.Provider>
 			</Router>
 
