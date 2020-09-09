@@ -6,7 +6,9 @@ function Home() {
 	return (
 		<div>
 			<NavBar />
-			<img src={KangaRoseImage}></img>
+			<div>
+				<img src={KangaRoseImage}></img>
+			</div>
 		</div>
 	);
 }

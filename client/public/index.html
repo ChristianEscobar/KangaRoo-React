@@ -36,6 +36,12 @@
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+		-->
+		<footer>&copy; <span id="year"></span> KangaRooTheKitty</footer>
+		<script>
+			window.onload = function () {
+				document.getElementById('year').innerHTML = new Date().getFullYear();
+			};
+		</script>
 	</body>
 </html>

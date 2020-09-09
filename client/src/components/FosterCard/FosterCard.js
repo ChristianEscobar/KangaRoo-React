@@ -37,14 +37,16 @@ const FosterCard = (props) => {
 						{props.fosterName}
 					</Typography>
 					<div>
-						<List>
-							<ListItemText>Adoption Agency: {props.agency}</ListItemText>
-							<ListItemText>Received: {props.received}</ListItemText>
-							<ListItemText>Adopted: {props.adopted}</ListItemText>
-							<ListItemText>Facebook: {props.facebook}</ListItemText>
-							<ListItemText>Instagram: {props.instagram}</ListItemText>
-							<ListItemText>Comments: {props.comments}</ListItemText>
-						</List>
+						<Typography variant="body2" color="textSecondary" component="p">
+							<List>
+								<ListItemText>Adoption Agency: {props.agency}</ListItemText>
+								<ListItemText>Received: {props.received}</ListItemText>
+								<ListItemText>Adopted: {props.adopted}</ListItemText>
+								<ListItemText>Facebook: {props.facebook}</ListItemText>
+								<ListItemText>Instagram: {props.instagram}</ListItemText>
+								<ListItemText>Comments: {props.comments}</ListItemText>
+							</List>
+						</Typography>
 					</div>
 				</CardContent>
 			</Card>
