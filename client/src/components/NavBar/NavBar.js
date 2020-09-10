@@ -48,6 +48,8 @@ const NavBar = function () {
 					</Link>
 				</Toolbar>
 			</AppBar>
+			<br />
+			<br />
 		</div>
 	);
 };

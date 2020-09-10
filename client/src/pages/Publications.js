@@ -52,8 +52,6 @@ const Publications = () => {
 	return (
 		<div>
 			<NavBar />
-			<br />
-			<br />
 			<Card className={classes.root}>
 				{/* <CardHeader
 					avatar={

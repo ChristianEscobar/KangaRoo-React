@@ -64,6 +64,8 @@ const Admin = (props) => {
 				setSnackbarVariant={props.setSnackbarVariant}
 				setSnackbarMessage={props.setSnackbarMessage}
 			/>
+			<br />
+			<br />
 		</div>
 	);
 };

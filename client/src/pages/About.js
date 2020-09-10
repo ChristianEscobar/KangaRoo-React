@@ -50,8 +50,6 @@ const About = () => {
 	return (
 		<div className={classes.root}>
 			<NavBar />
-			<br />
-			<br />
 			<Grid container spacing={2}>
 				<Grid item xs></Grid>
 				<Grid item xs={4}>

@@ -32,7 +32,7 @@ const AllFosters = (props) => {
 	}
 
 	return (
-		<Grid container spacing={3}>
+		<Grid container spacing={1}>
 			{props.data.docs.map((dataObj, index) => (
 				<Grid key={index} item xs={3}>
 					<FosterCard
@@ -46,22 +46,25 @@ const AllFosters = (props) => {
 						comments={dataObj.comments}
 					/>
 					<br />
-					<FosterCardActions
-						docAwsKey={dataObj.docAwsKey}
-						imageAwsKey={dataObj.imageAwsKey}
-						photoURL={dataObj.signedURL}
-						fosterName={dataObj.fosterName}
-						receivedDate={dataObj.receivedDate}
-						adoptedDate={dataObj.adoptedDate}
-						adoptionAgency={dataObj.adoptionAgency}
-						facebook={dataObj.facebook}
-						instagram={dataObj.instagram}
-						comments={dataObj.comments}
-						fetchData={props.fetchData}
-						setSnackbarOpen={props.setSnackbarOpen}
-						setSnackbarVariant={props.setSnackbarVariant}
-						setSnackbarMessage={props.setSnackbarMessage}
-					/>
+					if(props.admin)
+					{
+						<FosterCardActions
+							docAwsKey={dataObj.docAwsKey}
+							imageAwsKey={dataObj.imageAwsKey}
+							photoURL={dataObj.signedURL}
+							fosterName={dataObj.fosterName}
+							receivedDate={dataObj.receivedDate}
+							adoptedDate={dataObj.adoptedDate}
+							adoptionAgency={dataObj.adoptionAgency}
+							facebook={dataObj.facebook}
+							instagram={dataObj.instagram}
+							comments={dataObj.comments}
+							fetchData={props.fetchData}
+							setSnackbarOpen={props.setSnackbarOpen}
+							setSnackbarVariant={props.setSnackbarVariant}
+							setSnackbarMessage={props.setSnackbarMessage}
+						/>
+					}
 				</Grid>
 			))}
 		</Grid>
