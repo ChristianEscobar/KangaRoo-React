@@ -122,6 +122,7 @@ const FosterForm = (props) => {
 	const clearForm = () => {
 		setFosterName('');
 		setReceivedDate(Date.now());
+		setAdoptedDateChecked(false);
 		setAdoptedDate(Date.now());
 		setAdoptionAgency('');
 		setCardPhotoFile('');

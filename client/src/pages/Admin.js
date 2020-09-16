@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import AllFosters from '../components/AllFosters/AllFosters';
+import AllFostersAdmin from '../components/AllFostersAdmin/AllFostersAdmin';
 import AddFoster from '../components/AddFoster/AddFoster';
 import NavBarAdmin from '../components/NavBarAdmin/NavBarAdmin';
 import { UserContext } from '../contexts/UserContext';
@@ -56,7 +56,7 @@ const Admin = (props) => {
 				setSnackbarVariant={props.setSnackbarVariant}
 				setSnackbarMessage={props.setSnackbarMessage}
 			/>
-			<AllFosters
+			<AllFostersAdmin
 				data={data}
 				loading={loading}
 				fetchData={fetchData}

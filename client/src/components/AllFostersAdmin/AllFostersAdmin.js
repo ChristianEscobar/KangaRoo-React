@@ -5,7 +5,7 @@ import AlertTitle from '@material-ui/lab/AlertTitle';
 import FosterCard from '../FosterCard/FosterCard';
 import FosterCardActions from '../FosterCardActions/FosterCardActions';
 
-const AllFosters = (props) => {
+const AllFostersAdmin = (props) => {
 	if (props.loading) {
 		return (
 			<Alert variant="filled" severity="info">
@@ -46,29 +46,26 @@ const AllFosters = (props) => {
 						comments={dataObj.comments}
 					/>
 					<br />
-					if(props.admin)
-					{
-						<FosterCardActions
-							docAwsKey={dataObj.docAwsKey}
-							imageAwsKey={dataObj.imageAwsKey}
-							photoURL={dataObj.signedURL}
-							fosterName={dataObj.fosterName}
-							receivedDate={dataObj.receivedDate}
-							adoptedDate={dataObj.adoptedDate}
-							adoptionAgency={dataObj.adoptionAgency}
-							facebook={dataObj.facebook}
-							instagram={dataObj.instagram}
-							comments={dataObj.comments}
-							fetchData={props.fetchData}
-							setSnackbarOpen={props.setSnackbarOpen}
-							setSnackbarVariant={props.setSnackbarVariant}
-							setSnackbarMessage={props.setSnackbarMessage}
-						/>
-					}
+					<FosterCardActions
+						docAwsKey={dataObj.docAwsKey}
+						imageAwsKey={dataObj.imageAwsKey}
+						photoURL={dataObj.signedURL}
+						fosterName={dataObj.fosterName}
+						receivedDate={dataObj.receivedDate}
+						adoptedDate={dataObj.adoptedDate}
+						adoptionAgency={dataObj.adoptionAgency}
+						facebook={dataObj.facebook}
+						instagram={dataObj.instagram}
+						comments={dataObj.comments}
+						fetchData={props.fetchData}
+						setSnackbarOpen={props.setSnackbarOpen}
+						setSnackbarVariant={props.setSnackbarVariant}
+						setSnackbarMessage={props.setSnackbarMessage}
+					/>
 				</Grid>
 			))}
 		</Grid>
 	);
 };
 
-export default AllFosters;
+export default AllFostersAdmin;
