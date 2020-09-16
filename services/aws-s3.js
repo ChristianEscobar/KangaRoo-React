@@ -30,6 +30,7 @@ const fileUpload = multer({
 			cb(null, { fieldName: `foster-photo` });
 		},
 		key: function (req, file, cb) {
+			// cb(null, `${encodeURI(req.body.fosterName)}-${Date.now().toString()}`);
 			cb(null, `${encodeURI(req.body.fosterName)}-${Date.now().toString()}`);
 		},
 	}),
