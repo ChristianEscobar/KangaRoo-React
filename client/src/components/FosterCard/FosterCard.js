@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItem/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import { CardActions } from '@material-ui/core';
+import { extractLettersForAvatar } from '../../utils/display';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,7 +46,7 @@ const FosterCard = (props) => {
 			<CardHeader
 				avatar={
 					<Avatar aria-label="foster" className={classes.avatar}>
-						{props.fosterName[0]}
+						{extractLettersForAvatar(props.fosterName)}
 					</Avatar>
 				}
 				title={props.fosterName}
