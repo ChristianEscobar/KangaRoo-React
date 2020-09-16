@@ -42,12 +42,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const fosterNameRegExp = /[^a-zA-Z0-9 ]/;
+
 const FosterForm = (props) => {
 	const [cardPhotoFile, setCardPhotoFile] = useState();
 	const [cardPhotoURL, setCardPhotoURL] = useState(
 		!props.photoURL || props.photoURL.length === 0
 			? PlaceholderImage
 			: props.photoURL
+	);
+	const [fosterNameInputError, setFosterNameInputError] = useState(false);
+	const [fosterNameInputHelperText, setFosterNameInputHelperText] = useState(
+		''
 	);
 	const [fosterName, setFosterName] = useState(
 		!props.fosterName || props.fosterName.length === 0 ? '' : props.fosterName
@@ -88,7 +94,14 @@ const FosterForm = (props) => {
 	};
 
 	const handleFosterNameChange = (event) => {
-		setFosterName(event.target.value);
+		if (fosterNameRegExp.exec(event.target.value)) {
+			setFosterNameInputError(true);
+			setFosterNameInputHelperText('Invalid character');
+		} else {
+			setFosterNameInputError(false);
+			setFosterNameInputHelperText('');
+			setFosterName(event.target.value);
+		}
 	};
 
 	const handleAdoptionAgencyChange = (event) => {
@@ -227,6 +240,8 @@ const FosterForm = (props) => {
 							value={fosterName}
 							onChange={handleFosterNameChange}
 							autoFocus
+							error={fosterNameInputError}
+							helperText={fosterNameInputHelperText}
 						/>
 					</Grid>
 					<Grid item sm={3}>
