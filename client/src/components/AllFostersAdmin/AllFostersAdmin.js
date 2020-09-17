@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import FosterCard from '../FosterCard/FosterCard';
+import FosterCardAdmin from '../FosterCard/FosterCardAdmin';
 import FosterCardActions from '../FosterCardActions/FosterCardActions';
 
 const AllFostersAdmin = (props) => {
@@ -35,7 +35,7 @@ const AllFostersAdmin = (props) => {
 		<Grid container spacing={1}>
 			{props.data.docs.map((dataObj, index) => (
 				<Grid key={index} item xs={3}>
-					<FosterCard
+					<FosterCardAdmin
 						cardPhotoURL={dataObj.signedURL}
 						fosterName={dataObj.fosterName}
 						received={dataObj.receivedDate}
