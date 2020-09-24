@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import NavBar from '../components/NavBar/NavBar';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import NavBar from '../components/NavBar/NavBar';
+import FosterCard from '../components/FosterCard/FosterCard';
 
 const GET_FOSTERS_URL = '/api/v1/fosters';
 
@@ -23,9 +25,13 @@ const useStyles = makeStyles((theme) => ({
 	gridList: {
 		width: 500,
 		height: 450,
+		float: 'left',
 	},
 	icon: {
 		color: 'rgba(255, 255, 255, 0.54)',
+	},
+	fosterCard: {
+		float: 'right',
 	},
 }));
 
@@ -74,25 +80,13 @@ const Fosters = () => {
 		<div>
 			<NavBar />
 			<div className={classes.root}>
-				<GridList cellHeight={180} className={classes.gridList}>
+				<Grid container spacing={1} className={classes.fosterCard}>
 					{fosterData.docs.map((foster) => (
-						<GridListTile key={foster.signedURL}>
-							<img src={foster.signedURL} alt={foster.fosterName} />
-							<GridListTileBar
-								title={foster.fosterName}
-								actionIcon={
-									<IconButton
-										aria-label={`info about ${foster.fosterName}`}
-										className={classes.icon}
-										onClick={() => console.log('info clicked')}
-									>
-										<InfoIcon onClick={() => console.log('info clicked 2')} />
-									</IconButton>
-								}
-							/>
-						</GridListTile>
+						<Grid item xs={3}>
+							<FosterCard foster={foster} />
+						</Grid>
 					))}
-				</GridList>
+				</Grid>
 			</div>
 		</div>
 	);

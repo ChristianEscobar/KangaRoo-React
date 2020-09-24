@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import FosterCardAdmin from '../FosterCard/FosterCardAdmin';
+import FosterCardAdmin from '../FosterCardAdmin/FosterCardAdmin';
 import FosterCardActions from '../FosterCardActions/FosterCardActions';
 
 const AllFostersAdmin = (props) => {
